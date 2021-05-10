@@ -1,0 +1,36 @@
+.login {
+  min-width: 15rem;
+  max-width: 21rem;
+  margin: 0 auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.fieldset {
+  display: flex;
+  flex-flow: column;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.field {
+  padding: 8px;
+  margin: 0.3rem 0 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.buttongroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  padding: 8px;
+  font-size: 1rem;
+}
