@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/Layout';
 import LoginForm from '../components/LoginForm/LoginForm';
 import fetchJson from '../lib/fetchJson';
 import useUser from "../lib/useUser";
@@ -14,10 +14,10 @@ const LoginPage = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSubmit(e) {
-    event.preventDefault();
+    e.preventDefault();
 
     const body = {
-      username: e.currentTarget.username.value,
+      email: e.currentTarget.email.value,
       password: e.currentTarget.password.value
     };
 
