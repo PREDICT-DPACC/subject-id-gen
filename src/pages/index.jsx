@@ -1,21 +1,37 @@
-import Layout from '../components/Layout/Layout';
+import Layout from '../components/Layout';
 import useUser from "../lib/useUser";
+import fetchJson from "../lib/fetchJson";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const { user } = useUser({
+  const { user, mutateUser } = useUser({
     redirectTo: "/login"
   });
+  const router = useRouter();
   
   return (
     <Layout>
       {!user || !user?.isLoggedIn && (
         <>
-        Loading
+          Loading
         </>
       )}
       {user?.isLoggedIn && (
         <>
-        Logged in
+          <div>Logged in</div>
+          <a
+            href="/api/logout"
+            onClick={async (e) => {
+              e.preventDefault();
+              mutateUser(
+                await fetchJson("/api/logout", { method: "POST" }),
+                false,
+              );
+              router.push("/login");
+            }}
+          >
+            Logout
+          </a>
         </>
       )}
     </Layout>

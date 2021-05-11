@@ -1,9 +1,8 @@
-import Link from 'next/link';
-import styles from './LoginForm.module.css';
+import styles from './RegisterForm.module.css';
 import formStyles from '../Form/Form.module.css';
 
-const LoginForm = ({ errorMessage, onSubmit }) => (
-  <div className={styles.login}>
+const RegisterForm = ({ errorMessage, onSubmit }) => (
+  <div className={styles.register}>
     <div className={formStyles.error}>
       {errorMessage}
     </div>
@@ -18,18 +17,18 @@ const LoginForm = ({ errorMessage, onSubmit }) => (
         <input type="password" name="password" className={formStyles.field} required />
       </div>
 
+      <div className={formStyles.fieldset}>
+        <label htmlFor="confirm-password" className={formStyles.label}>Confirm Password</label>
+        <input type="password" name="confirm-password" className={formStyles.field} required />
+      </div>
+
       <div className={formStyles.buttongroup}>
         <button type="submit" className={formStyles.button}>
-          Login
+          Register
         </button>
-        <div className={formStyles.button}>
-          <Link href="/register">
-            Register
-          </Link>
-        </div>
       </div>
     </form>
   </div>
 );
 
-export default LoginForm;
+export default RegisterForm;
