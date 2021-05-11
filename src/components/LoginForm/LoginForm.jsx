@@ -8,12 +8,12 @@ const LoginForm = ({ errorMessage, onSubmit }) => (
     </div>
     <form onSubmit={onSubmit}>
       <div className={styles.fieldset}>
-        <label for="email" className={styles.label}>Email</label>
+        <label htmlFor="email" className={styles.label}>Email</label>
         <input type="text" name="email" className={styles.field} required />
       </div>
 
       <div className={styles.fieldset}>
-        <label for="password" className={styles.label}>Password</label>
+        <label htmlFor="password" className={styles.label}>Password</label>
         <input type="password" name="password" className={styles.field} required />
       </div>
 
