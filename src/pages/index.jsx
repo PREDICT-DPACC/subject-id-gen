@@ -2,13 +2,22 @@ import Layout from '../components/Layout/Layout';
 import useUser from "../lib/useUser";
 
 export default function Home() {
-  useUser({
+  const { user } = useUser({
     redirectTo: "/login"
   });
   
   return (
     <Layout>
-      Logged in
+      {!user && (
+        <>
+        Loading
+        </>
+      )}
+      {user && (
+        <>
+        Logged in
+        </>
+      )}
     </Layout>
   )
 }
