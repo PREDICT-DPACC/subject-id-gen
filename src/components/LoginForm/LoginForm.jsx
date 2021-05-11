@@ -1,9 +1,12 @@
 import Link from 'next/link';
-import styles from '../styles/LoginForm.module.css';
+import styles from './LoginForm.module.css';
 
-const LoginForm = () => (
+const LoginForm = ({ errorMessage, onSubmit }) => (
   <div className={styles.login}>
-    <form>
+    <div className={styles.error}>
+      {errorMessage}
+    </div>
+    <form onSubmit={onSubmit}>
       <div className={styles.fieldset}>
         <label for="email" className={styles.label}>Email</label>
         <input type="text" name="email" className={styles.field} required />
