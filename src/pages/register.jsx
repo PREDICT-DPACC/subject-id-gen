@@ -3,7 +3,6 @@ import Layout from '../components/Layout';
 import RegisterForm from '../components/RegisterForm';
 import useUser from '../lib/useUser';
 import styles from '../styles/Login.module.css';
-import { hash } from '../lib/hash';
 
 const RegisterPage = () => {
   const { mutateUser } = useUser({
@@ -17,7 +16,7 @@ const RegisterPage = () => {
 
     const body = {
       email: e.currentTarget.email.value,
-      // sites:  e.currentTarget.sites.value,
+      sites:  e.currentTarget.sites.value,
       password: e.currentTarget.password.value
     };
 
@@ -29,7 +28,6 @@ const RegisterPage = () => {
       //     body: JSON.stringify(body),
       //   }),
       // );
-      console.log(hash({ text: body.password }));
     } catch (error) {
       console.error("An unexpected error happened:", error);
       setErrorMsg(error.message);
