@@ -8,12 +8,12 @@ export default function Home() {
   
   return (
     <Layout>
-      {!user && (
+      {!user || !user?.isLoggedIn && (
         <>
         Loading
         </>
       )}
-      {user && (
+      {user?.isLoggedIn && (
         <>
         Logged in
         </>
