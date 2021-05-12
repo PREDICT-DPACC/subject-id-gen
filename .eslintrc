@@ -1,0 +1,6 @@
+{
+  "extends": "@ijsto",
+  "rules": {
+    "sort-keys": "off"
+  }
+}
