@@ -11,10 +11,12 @@ export default function Home() {
 
   return (
     <Layout>
-      {(!user || !user?.isLoggedIn) && <>Loading</>}
+      {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
           <div>Logged in</div>
+          {!user?.isVerified && <div>Email not yet verified</div>}
+          {user?.isVerified && <div>Email is verified!</div>}
           <a
             href="/api/logout"
             onClick={async e => {

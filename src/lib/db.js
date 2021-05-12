@@ -45,6 +45,10 @@ export async function connectToDatabase() {
       })
       .then(db => {
         db.collection('users').createIndex({ email: 1 }, { unique: true });
+        db.collection('auth_tokens').createIndex(
+          { createdAt: 1 },
+          { expireAfterSeconds: 172800 }
+        );
         conn.db = db;
         return conn;
       });
