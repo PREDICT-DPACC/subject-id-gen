@@ -46,7 +46,7 @@ export async function connectToDatabase() {
       .then(db => {
         db.collection('users').createIndex({ email: 1 }, { unique: true });
         conn.db = db;
-        cached.conn = conn;
+        return conn;
       });
   }
   cached.conn = await cached.promise;
