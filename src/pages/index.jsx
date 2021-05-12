@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <Layout>
-      {!user || (!user?.isLoggedIn && <>Loading</>)}
+      {(!user || !user?.isLoggedIn) && <>Loading</>}
       {user?.isLoggedIn && (
         <>
           <div>Logged in</div>
