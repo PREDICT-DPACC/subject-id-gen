@@ -76,7 +76,9 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
               return 0;
             })
             .map(site => (
-              <option value={site.id}>{site.name}</option>
+              <option value={site.id} key={site.id}>
+                {site.name}
+              </option>
             ))}
         </select>
       </div>
