@@ -10,7 +10,7 @@ export default async function fetchJson(...args) {
       return data;
     }
 
-    const error = new Error(response.statusText);
+    const error = new Error(data.message || response.statusText);
     error.response = response;
     error.data = data;
     throw error;
