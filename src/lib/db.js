@@ -32,15 +32,22 @@ export async function connectToDatabase() {
   }
 
   if (!cached.promise) {
+    const conn = {};
     const opts = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };
 
-    cached.promise = MongoClient.connect(MONGODB_URI, opts).then(client => ({
-      client,
-      db: client.db(MONGODB_DB),
-    }));
+    cached.promise = MongoClient.connect(MONGODB_URI, opts)
+      .then(client => {
+        conn.client = client;
+        return client.db(MONGODB_DB);
+      })
+      .then(db => {
+        db.collection('users').createIndex({ email: 1 }, { unique: true });
+        conn.db = db;
+        cached.conn = conn;
+      });
   }
   cached.conn = await cached.promise;
   return cached.conn;
