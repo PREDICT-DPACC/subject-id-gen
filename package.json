@@ -8,6 +8,7 @@
     "start": "next start -p 4041"
   },
   "dependencies": {
+    "mongodb": "^3.6.6",
     "next": "10.2.0",
     "next-iron-session": "^4.1.13",
     "react": "17.0.2",
