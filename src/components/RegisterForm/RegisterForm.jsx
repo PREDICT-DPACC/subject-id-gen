@@ -5,8 +5,32 @@ import sitesList from '../../lib/sites';
 
 const RegisterForm = ({ errorMessage, onSubmit }) => (
   <div className={styles.register}>
-    <div className={formStyles.error}>{errorMessage}</div>
+    {errorMessage && <div className={formStyles.error}>{errorMessage}</div>}
     <form onSubmit={onSubmit}>
+      <div className={formStyles.fieldset}>
+        <label htmlFor="firstName" className={formStyles.label}>
+          First name
+        </label>
+        <input
+          type="text"
+          name="firstName"
+          className={formStyles.field}
+          required
+        />
+      </div>
+
+      <div className={formStyles.fieldset}>
+        <label htmlFor="lastName" className={formStyles.label}>
+          Last name
+        </label>
+        <input
+          type="text"
+          name="lastName"
+          className={formStyles.field}
+          required
+        />
+      </div>
+
       <div className={formStyles.fieldset}>
         <label htmlFor="email" className={formStyles.label}>
           Email

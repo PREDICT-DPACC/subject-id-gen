@@ -4,7 +4,7 @@ import formStyles from '../Form/Form.module.css';
 
 const LoginForm = ({ errorMessage, onSubmit }) => (
   <div className={styles.login}>
-    <div className={formStyles.error}>{errorMessage}</div>
+    {errorMessage && <div className={formStyles.error}>{errorMessage}</div>}
     <form onSubmit={onSubmit}>
       <div className={formStyles.fieldset}>
         <label htmlFor="email" className={formStyles.label}>
