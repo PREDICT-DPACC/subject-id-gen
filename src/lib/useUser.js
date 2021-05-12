@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import Router from "next/router";
-import useSWR from "swr";
+import { useEffect } from 'react';
+import Router from 'next/router';
+import useSWR from 'swr';
 
 export default function useUser({
   redirectTo = false,
   redirectIfFound = false,
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR("/api/user");
+  const { data: user, mutate: mutateUser } = useSWR('/api/user');
 
   useEffect(() => {
     // if no redirect needed or no user obj, return

@@ -1,13 +1,13 @@
-import { SWRConfig } from "swr";
-import fetchJson from "../lib/fetchJson";
-import '../styles/globals.css'
+import { SWRConfig } from 'swr';
+import fetchJson from '../lib/fetchJson';
+import '../styles/globals.css';
 
 function SubjectIdGen({ Component, pageProps }) {
   return (
     <SWRConfig
       value={{
         fetcher: fetchJson,
-        onError: (err) => {
+        onError: err => {
           console.error(err);
         },
       }}
@@ -17,4 +17,4 @@ function SubjectIdGen({ Component, pageProps }) {
   );
 }
 
-export default SubjectIdGen
+export default SubjectIdGen;

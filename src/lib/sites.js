@@ -1,150 +1,150 @@
 export default [
   {
-    'id': 'ME',
-    'name': 'Melbourne, Australia'
+    id: 'ME',
+    name: 'Melbourne, Australia',
   },
   {
-    'id': 'AD',
-    'name': 'Adelaide, Australia'
+    id: 'AD',
+    name: 'Adelaide, Australia',
   },
   {
-    'id': 'PE',
-    'name': 'Perth, Australia'
+    id: 'PE',
+    name: 'Perth, Australia',
   },
   {
-    'id': 'JE',
-    'name': 'Jena, Germany'
+    id: 'JE',
+    name: 'Jena, Germany',
   },
   {
-    'id': 'CP',
-    'name': 'Copenhagen, Denmark'
+    id: 'CP',
+    name: 'Copenhagen, Denmark',
   },
   {
-    'id': 'BM',
-    'name': 'Birmingham, UK'
+    id: 'BM',
+    name: 'Birmingham, UK',
   },
   {
-    'id': 'AM',
-    'name': 'Amsterdam, the Netherlands'
+    id: 'AM',
+    name: 'Amsterdam, the Netherlands',
   },
   {
-    'id': 'LS',
-    'name': 'Lausanne, Switzerland'
+    id: 'LS',
+    name: 'Lausanne, Switzerland',
   },
   {
-    'id': 'GW',
-    'name': 'Gwangju, Korea'
+    id: 'GW',
+    name: 'Gwangju, Korea',
   },
   {
-    'id': 'SG',
-    'name': 'Singapore'
+    id: 'SG',
+    name: 'Singapore',
   },
   {
-    'id': 'HK',
-    'name': 'Hong Kong'
+    id: 'HK',
+    name: 'Hong Kong',
   },
   {
-    'id': 'LA',
-    'name': 'UCLA'
+    id: 'LA',
+    name: 'UCLA',
   },
   {
-    'id': 'OR',
-    'name': 'OREGON'
+    id: 'OR',
+    name: 'OREGON',
   },
   {
-    'id': 'BI',
-    'name': 'Harvard/BIDMC'
+    id: 'BI',
+    name: 'Harvard/BIDMC',
   },
   {
-    'id': 'NL',
-    'name': 'NORTHWELL'
+    id: 'NL',
+    name: 'NORTHWELL',
   },
   {
-    'id': 'NC',
-    'name': 'UNC'
+    id: 'NC',
+    name: 'UNC',
   },
   {
-    'id': 'SD',
-    'name': 'UCSD'
+    id: 'SD',
+    name: 'UCSD',
   },
   {
-    'id': 'CA',
-    'name': 'Calgary'
+    id: 'CA',
+    name: 'Calgary',
   },
   {
-    'id': 'YA',
-    'name': 'YALE'
+    id: 'YA',
+    name: 'YALE',
   },
   {
-    'id': 'SF',
-    'name': 'UCSF/Path'
+    id: 'SF',
+    name: 'UCSF/Path',
   },
   {
-    'id': 'PA',
-    'name': 'Penn'
+    id: 'PA',
+    name: 'Penn',
   },
   {
-    'id': 'SI',
-    'name': 'Mt.Sinai'
+    id: 'SI',
+    name: 'Mt.Sinai',
   },
   {
-    'id': 'PI',
-    'name': 'Pitt'
+    id: 'PI',
+    name: 'Pitt',
   },
   {
-    'id': 'NN',
-    'name': 'Northwestern'
+    id: 'NN',
+    name: 'Northwestern',
   },
   {
-    'id': 'IR',
-    'name': 'UC Irvine'
+    id: 'IR',
+    name: 'UC Irvine',
   },
   {
-    'id': 'TE',
-    'name': 'Temple'
+    id: 'TE',
+    name: 'Temple',
   },
   {
-    'id': 'GA',
-    'name': 'Georgia'
+    id: 'GA',
+    name: 'Georgia',
   },
   {
-    'id': 'WU',
-    'name': 'WashU'
+    id: 'WU',
+    name: 'WashU',
   },
   {
-    'id': 'HA',
-    'name': 'Hartford'
+    id: 'HA',
+    name: 'Hartford',
   },
   {
-    'id': 'MT',
-    'name': 'Montreal'
+    id: 'MT',
+    name: 'Montreal',
   },
   {
-    'id': 'KC',
-    'name': 'King\'s College London'
+    id: 'KC',
+    name: "King's College London",
   },
   {
-    'id': 'PV',
-    'name': 'Pavia, Italy'
+    id: 'PV',
+    name: 'Pavia, Italy',
   },
   {
-    'id': 'MA',
-    'name': 'Madrid'
+    id: 'MA',
+    name: 'Madrid',
   },
   {
-    'id': 'CM',
-    'name': 'Cambridge UK'
+    id: 'CM',
+    name: 'Cambridge UK',
   },
   {
-    'id': 'MU',
-    'name': 'LMU Munich'
+    id: 'MU',
+    name: 'LMU Munich',
   },
   {
-    'id': 'SH',
-    'name': 'Shanghai'
+    id: 'SH',
+    name: 'Shanghai',
   },
   {
-    'id': 'SL',
-    'name': 'Seoul'
-  }
-]
+    id: 'SL',
+    name: 'Seoul',
+  },
+];

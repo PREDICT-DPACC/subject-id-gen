@@ -1,8 +1,10 @@
-import { hash, verifyHash } from '../../lib/hash';
-import withSession from "../../lib/session";
+import { verifyHash } from '../../lib/hash';
+import withSession from '../../lib/session';
+import { HttpError } from '../../lib/errors';
 
 export default withSession(async (req, res) => {
   const { email, password } = await req.body;
+  console.log(email);
 
   try {
     // Mongo call getting hashed PW from email (fake placeholder right now)
@@ -18,11 +20,14 @@ export default withSession(async (req, res) => {
       const { _id, access } = mongoCall;
       const user = { isLoggedIn: true, id: _id, access };
       console.log(user);
-      req.session.set("user", user);
+      req.session.set('user', user);
       await req.session.save();
       res.json(user);
     } else {
-      throw { statusCode: 403, message: 'Incorrect email or password.' };
+      throw new HttpError({
+        message: 'Incorrect email or password.',
+        statusCode: 403,
+      });
     }
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
