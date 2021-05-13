@@ -32,6 +32,11 @@ export default withSession(async (req, res) => {
 
     const token = getToken();
 
+    const role =
+      process.env.ADMIN_EMAIL.toLowerCase() === email.toLowerCase()
+        ? 'admin'
+        : 'user';
+
     const mongoRegistration = await db.collection('users').insertOne({
       email,
       firstName,
@@ -39,11 +44,11 @@ export default withSession(async (req, res) => {
       password: hash({ text: password }),
       requestedSites: sites,
       access: [],
-      role: 'user',
+      role,
       isVerified: false,
     });
 
-    const { _id, isVerified, access, role } = mongoRegistration.ops[0];
+    const { _id, isVerified, access } = mongoRegistration.ops[0];
 
     await db.collection('auth_tokens').insertOne({
       createdAt: new Date(),
