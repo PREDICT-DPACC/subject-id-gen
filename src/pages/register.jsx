@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import RegisterForm from '../components/RegisterForm';
 import fetchJson from '../lib/fetchJson';
 import useUser from '../lib/useUser';
-import styles from '../styles/Login.module.css';
+import styles from '../styles/Home.module.css';
 
 const RegisterPage = () => {
   const { mutateUser } = useUser({
