@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import RegisterForm from '../components/RegisterForm';
@@ -10,6 +11,7 @@ const RegisterPage = () => {
     redirectTo: '/',
     redirectIfFound: true,
   });
+  const router = useRouter();
 
   const [errorMsg, setErrorMsg] = useState('');
   async function handleSubmit(e) {
@@ -33,6 +35,7 @@ const RegisterPage = () => {
           body: JSON.stringify(body),
         })
       );
+      router.push('/');
     } catch (error) {
       console.error('An unexpected error happened:', error);
       setErrorMsg(error.message);
