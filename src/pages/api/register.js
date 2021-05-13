@@ -18,10 +18,11 @@ export default withSession(async (req, res) => {
     }
 
     const { db } = await connectToDatabase();
+    const emailLower = email.toLowerCase();
 
     const userExists = await db
       .collection('users')
-      .findOne({ email }, { _id: 1 });
+      .findOne({ email: emailLower }, { _id: 1 });
 
     if (userExists !== null) {
       throw new HttpError({
@@ -33,12 +34,10 @@ export default withSession(async (req, res) => {
     const token = getToken();
 
     const role =
-      process.env.ADMIN_EMAIL.toLowerCase() === email.toLowerCase()
-        ? 'admin'
-        : 'user';
+      process.env.ADMIN_EMAIL.toLowerCase() === emailLower ? 'admin' : 'user';
 
     const mongoRegistration = await db.collection('users').insertOne({
-      email,
+      email: emailLower,
       firstName,
       lastName,
       password: hash({ text: password }),

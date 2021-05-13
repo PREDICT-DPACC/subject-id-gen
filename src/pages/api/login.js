@@ -18,9 +18,11 @@ export default withSession(async (req, res) => {
 
     const { db } = await connectToDatabase();
 
+    const emailLower = email.toLowerCase();
+
     const userJustPassHash = await db
       .collection('users')
-      .findOne({ email }, { password: 1 });
+      .findOne({ email: emailLower }, { password: 1 });
 
     if (userJustPassHash == null) {
       throw new HttpError({
@@ -33,9 +35,11 @@ export default withSession(async (req, res) => {
     const storedHash = userJustPassHash.password;
     if (verifyHash({ text: password, original: storedHash })) {
       // Mongo call getting the rest of user info
-      const wholeUser = await db.collection('users').findOne({ email });
-      const { _id, access } = wholeUser;
-      const user = { isLoggedIn: true, id: _id, access };
+      const wholeUser = await db
+        .collection('users')
+        .findOne({ email: emailLower });
+      const { _id, access, isVerified } = wholeUser;
+      const user = { isLoggedIn: true, id: _id, access, isVerified };
       req.session.set('user', user);
       await req.session.save();
       res.json(user);
