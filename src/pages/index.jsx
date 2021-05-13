@@ -66,16 +66,21 @@ export default function Home() {
           )}
           {!user?.isVerified && (
             <>
-              <p>Email not yet verified</p>
               {!state.sentEmail && (
-                <button
-                  onClick={handleResendVerification}
-                  type="button"
-                  disabled={state.formDisabled}
-                  className={formStyles.button}
-                >
-                  Resend verification email
-                </button>
+                <>
+                  <p>
+                    Email not yet verified. Please check your email, including
+                    Spam or Junk folders, or:
+                  </p>
+                  <button
+                    onClick={handleResendVerification}
+                    type="button"
+                    disabled={state.formDisabled}
+                    className={formStyles.button}
+                  >
+                    Resend verification email
+                  </button>
+                </>
               )}
               {state.sentEmail && <p>Verification email sent.</p>}
             </>
