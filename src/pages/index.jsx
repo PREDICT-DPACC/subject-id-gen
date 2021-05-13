@@ -1,35 +1,88 @@
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
 import fetchJson from '../lib/fetchJson';
+import styles from '../styles/Home.module.css';
+import formStyles from '../components/Form/Form.module.css';
 
 export default function Home() {
+  const [state, setState] = useState({
+    formDisabled: false,
+    sentEmail: false,
+    errorMsg: '',
+  });
+  const setDisabled = val => {
+    setState({ ...state, formDisabled: val });
+  };
+  const setSentEmail = val => {
+    setState({ ...state, sentEmail: val });
+  };
+  const setError = val => {
+    setState({ ...state, errorMsg: val });
+  };
   const { user, mutateUser } = useUser({
     redirectTo: '/login',
   });
   const router = useRouter();
+
+  const handleLogout = async e => {
+    e.preventDefault();
+    try {
+      mutateUser(await fetchJson('/api/logout', { method: 'POST' }), false);
+      router.push('/login');
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleResendVerification = async e => {
+    e.preventDefault();
+    try {
+      setDisabled(true);
+      const body = { email: user.email };
+      await fetchJson('/api/send-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      setSentEmail(true);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <Layout>
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <div>Logged in</div>
-          {!user?.isVerified && <div>Email not yet verified</div>}
-          {user?.isVerified && <div>Email is verified!</div>}
-          <a
-            href="/api/logout"
-            onClick={async e => {
-              e.preventDefault();
-              mutateUser(
-                await fetchJson('/api/logout', { method: 'POST' }),
-                false
-              );
-              router.push('/login');
-            }}
-          >
-            Logout
-          </a>
+          <h1 className={styles.title}>Subject ID Generator</h1>
+          <p>
+            <a href="/api/logout" onClick={handleLogout}>
+              Logout
+            </a>
+          </p>
+          {state.errorMsg && state.errorMsg !== '' && (
+            <p className={formStyles.error}>{state.errorMsg}</p>
+          )}
+          {!user?.isVerified && (
+            <>
+              <p>Email not yet verified</p>
+              {!state.sentEmail && (
+                <button
+                  onClick={handleResendVerification}
+                  type="button"
+                  disabled={state.formDisabled}
+                  className={formStyles.button}
+                >
+                  Resend verification email
+                </button>
+              )}
+              {state.sentEmail && <p>Verification email sent.</p>}
+            </>
+          )}
+          {user?.isVerified && <p>Email is verified!</p>}
         </>
       )}
     </Layout>

@@ -38,8 +38,15 @@ export default withSession(async (req, res) => {
       const wholeUser = await db
         .collection('users')
         .findOne({ email: emailLower });
-      const { _id, access, isVerified } = wholeUser;
-      const user = { isLoggedIn: true, id: _id, access, isVerified };
+      const { _id, access, isVerified, role } = wholeUser;
+      const user = {
+        isLoggedIn: true,
+        id: _id,
+        email,
+        access,
+        isVerified,
+        role,
+      };
       req.session.set('user', user);
       await req.session.save();
       res.json(user);

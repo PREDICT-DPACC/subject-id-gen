@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Layout from '../../components/Layout';
 import useUser from '../../lib/useUser';
 import fetchJson from '../../lib/fetchJson';
+import styles from '../../components/Form/Form.module.css';
 
 const VerifyEmailPage = () => {
   const { user, mutateUser } = useUser();
@@ -25,6 +26,7 @@ const VerifyEmailPage = () => {
           body: JSON.stringify(body),
         })
       );
+      router.reload();
     } catch (error) {
       console.error('An unexpected error happened:', error);
       setErrorMsg(error.message);
@@ -46,18 +48,21 @@ const VerifyEmailPage = () => {
         </>
       )}
       {user?.isLoggedIn && !user?.isVerified && (
-        <button
-          type="submit"
-          onClick={handleSubmit}
-          disabled={errorMsg !== '' || clickedButton === true}
-        >
-          Confirm Email
-        </button>
+        <p>
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={errorMsg !== '' || clickedButton === true}
+            className={styles.button}
+          >
+            Verify Email
+          </button>
+        </p>
       )}
       {user?.isLoggedIn && user?.isVerified && (
         <p>
           Successfully verified.{' '}
-          <Link href="/">Click here to return to the dashboard.</Link>
+          <Link href="/">Click here to return to the main page.</Link>
         </p>
       )}
       {errorMsg !== '' && <p style={{ color: 'red' }}>{errorMsg}</p>}
