@@ -3,10 +3,9 @@ import styles from './RegisterForm.module.css';
 import formStyles from '../Form/Form.module.css';
 import sitesList from '../../lib/sites';
 
-const RegisterForm = ({ errorMessage, onSubmit }) => (
+const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
   <div className={styles.register}>
-    {errorMessage && <div className={formStyles.error}>{errorMessage}</div>}
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} onBlur={onBlur}>
       <div className={formStyles.fieldset}>
         <label htmlFor="firstName" className={formStyles.label}>
           First name
@@ -14,7 +13,12 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
         <input
           type="text"
           name="firstName"
-          className={formStyles.field}
+          autoComplete="given_name"
+          className={
+            validState.firstName
+              ? formStyles.field
+              : `${formStyles.field} ${formStyles.invalid}`
+          }
           required
         />
       </div>
@@ -26,7 +30,12 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
         <input
           type="text"
           name="lastName"
-          className={formStyles.field}
+          autoComplete="family_name"
+          className={
+            validState.lastName
+              ? formStyles.field
+              : `${formStyles.field} ${formStyles.invalid}`
+          }
           required
         />
       </div>
@@ -35,7 +44,17 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
         <label htmlFor="email" className={formStyles.label}>
           Email
         </label>
-        <input type="text" name="email" className={formStyles.field} required />
+        <input
+          type="text"
+          name="email"
+          autoComplete="email"
+          className={
+            validState.email
+              ? formStyles.field
+              : `${formStyles.field} ${formStyles.invalid}`
+          }
+          required
+        />
       </div>
 
       <div className={formStyles.fieldset}>
@@ -45,7 +64,12 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
         <input
           type="password"
           name="password"
-          className={formStyles.field}
+          autoComplete="new-password"
+          className={
+            validState.password
+              ? formStyles.field
+              : `${formStyles.field} ${formStyles.invalid}`
+          }
           required
         />
       </div>
@@ -57,7 +81,12 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
         <input
           type="password"
           name="confirm-password"
-          className={formStyles.field}
+          autoComplete="new-password"
+          className={
+            validState['confirm-password']
+              ? formStyles.field
+              : `${formStyles.field} ${formStyles.invalid}`
+          }
           required
         />
       </div>
@@ -83,6 +112,7 @@ const RegisterForm = ({ errorMessage, onSubmit }) => (
         </select>
       </div>
 
+      {errorMessage && <div className={formStyles.error}>{errorMessage}</div>}
       <div className={formStyles.buttongroup}>
         <button type="submit" className={formStyles.button}>
           Register

@@ -15,6 +15,10 @@
   border-radius: 4px;
 }
 
+.invalid {
+  border: 1px solid red !important;
+}
+
 .buttongroup {
   display: flex;
   justify-content: space-between;
