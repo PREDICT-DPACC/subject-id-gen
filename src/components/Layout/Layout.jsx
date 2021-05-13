@@ -7,7 +7,10 @@ const Layout = ({ children }) => (
       <title>Subject ID Generator</title>
     </Head>
     <main className={styles.main}>
-      <div className={styles.container}>{children}</div>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Subject ID Generator</h1>
+        {children}
+      </div>
     </main>
   </>
 );

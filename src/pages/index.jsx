@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
 import fetchJson from '../lib/fetchJson';
-import styles from '../styles/Home.module.css';
 import formStyles from '../components/Form/Form.module.css';
 
 export default function Home() {
@@ -57,7 +56,6 @@ export default function Home() {
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <h1 className={styles.title}>Subject ID Generator</h1>
           <p>
             <a href="/api/logout" onClick={handleLogout}>
               Logout

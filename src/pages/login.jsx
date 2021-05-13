@@ -3,7 +3,7 @@ import Layout from '../components/Layout';
 import LoginForm from '../components/LoginForm/LoginForm';
 import fetchJson from '../lib/fetchJson';
 import useUser from '../lib/useUser';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Login.module.css';
 
 const LoginPage = () => {
   const { mutateUser } = useUser({
@@ -37,7 +37,6 @@ const LoginPage = () => {
 
   return (
     <Layout>
-      <h1 className={styles.title}>Subject ID Generator</h1>
       <p className={styles.description}>
         A tool to create or validate subject IDs for the DPACC project.
       </p>
