@@ -51,7 +51,7 @@ In order to seed the database with site IDs and names, run the following command
 yarn seed
 ```
 
-In your environment variables, `MONGODB_DB` must be set to the empty database you created, and `MONGODB_URI`.
+In your environment variables, `MONGODB_DB` must be set to the name of the empty database you created, and `MONGODB_URI` must be the connetion URI for your MongoDB instance.
 
 ## Available scripts
 
