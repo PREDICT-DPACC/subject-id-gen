@@ -40,10 +40,10 @@ export default withSession(async (req, res) => {
     const user = {
       id: _id,
       isLoggedIn: true,
+      isVerified: true,
       email,
       access,
       role,
-      isVerified: true,
     };
     req.session.set('user', user);
     await req.session.save();

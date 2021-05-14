@@ -57,7 +57,15 @@ export default withSession(async (req, res) => {
 
     await sendVerificationEmail({ email, token });
 
-    const user = { id: _id, isLoggedIn: true, isVerified, email, access, role };
+    const user = {
+      id: _id,
+      isLoggedIn: true,
+      isVerified,
+      email,
+      access,
+      role,
+    };
+
     req.session.set('user', user);
     await req.session.save();
     res.json(user);

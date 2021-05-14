@@ -40,11 +40,11 @@ export default withSession(async (req, res) => {
         .findOne({ email: emailLower });
       const { _id, access, isVerified, role } = wholeUser;
       const user = {
-        isLoggedIn: true,
         id: _id,
+        isLoggedIn: true,
+        isVerified,
         email,
         access,
-        isVerified,
         role,
       };
       req.session.set('user', user);
