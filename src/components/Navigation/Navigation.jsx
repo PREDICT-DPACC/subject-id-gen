@@ -29,7 +29,7 @@ const Navigation = ({ user, mutateUser, setError, router }) => {
     <div className={styles.navbar}>
       <NavLink path="/" title="Home" />
       {user.role === 'admin' && (
-        <NavLink path="/admin/users" title="Administration" />
+        <NavLink path="/admin" title="Administration" />
       )}
       <a
         href="/api/auth/logout"
