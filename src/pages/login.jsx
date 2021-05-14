@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Layout from '../components/Layout';
 import LoginForm from '../components/LoginForm/LoginForm';
 import fetchJson from '../lib/fetchJson';

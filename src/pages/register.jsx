@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as yup from 'yup';
 import Layout from '../components/Layout';
 import RegisterForm from '../components/RegisterForm';
