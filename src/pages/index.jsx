@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
 import fetchJson from '../lib/fetchJson';
 import formStyles from '../components/Form/Form.module.css';
+import Navigation from '../components/Navigation';
 
 export default function Home() {
   const [state, setState] = useState({
@@ -24,19 +25,6 @@ export default function Home() {
     redirectTo: '/login',
   });
   const router = useRouter();
-
-  const handleLogout = async e => {
-    e.preventDefault();
-    try {
-      mutateUser(
-        await fetchJson('/api/auth/logout', { method: 'POST' }),
-        false
-      );
-      router.push('/login');
-    } catch (error) {
-      setError(error.message);
-    }
-  };
 
   const handleResendVerification = async e => {
     e.preventDefault();
@@ -59,11 +47,12 @@ export default function Home() {
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <p>
-            <a href="/api/auth/logout" onClick={handleLogout}>
-              Logout
-            </a>
-          </p>
+          <Navigation
+            user={user}
+            mutateUser={mutateUser}
+            setError={setError}
+            router={router}
+          />
           {state.errorMsg && state.errorMsg !== '' && (
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}
