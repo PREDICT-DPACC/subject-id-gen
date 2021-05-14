@@ -1,9 +1,9 @@
-import withSession from '../../lib/session';
-import { connectToDatabase } from '../../lib/db';
-import { hash } from '../../lib/hash';
-import { getToken } from '../../lib/token';
-import { sendVerificationEmail } from '../../lib/mail';
-import { HttpError } from '../../lib/errors';
+import withSession from '../../../lib/session';
+import { connectToDatabase } from '../../../lib/db';
+import { hash } from '../../../lib/hash';
+import { getToken } from '../../../lib/token';
+import { sendVerificationEmail } from '../../../lib/mail';
+import { HttpError } from '../../../lib/errors';
 
 export default withSession(async (req, res) => {
   const { method, body } = await req;

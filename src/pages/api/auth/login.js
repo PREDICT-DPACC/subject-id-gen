@@ -1,7 +1,7 @@
-import withSession from '../../lib/session';
-import { HttpError } from '../../lib/errors';
-import { connectToDatabase } from '../../lib/db';
-import { verifyHash } from '../../lib/hash';
+import withSession from '../../../lib/session';
+import { HttpError } from '../../../lib/errors';
+import { connectToDatabase } from '../../../lib/db';
+import { verifyHash } from '../../../lib/hash';
 
 export default withSession(async (req, res) => {
   const { method, body } = await req;

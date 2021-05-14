@@ -28,7 +28,10 @@ export default function Home() {
   const handleLogout = async e => {
     e.preventDefault();
     try {
-      mutateUser(await fetchJson('/api/logout', { method: 'POST' }), false);
+      mutateUser(
+        await fetchJson('/api/auth/logout', { method: 'POST' }),
+        false
+      );
       router.push('/login');
     } catch (error) {
       setError(error.message);
@@ -40,7 +43,7 @@ export default function Home() {
     try {
       setDisabled(true);
       const body = { email: user.email };
-      await fetchJson('/api/send-verification', {
+      await fetchJson('/api/auth/send-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
@@ -57,7 +60,7 @@ export default function Home() {
       {user?.isLoggedIn && (
         <>
           <p>
-            <a href="/api/logout" onClick={handleLogout}>
+            <a href="/api/auth/logout" onClick={handleLogout}>
               Logout
             </a>
           </p>

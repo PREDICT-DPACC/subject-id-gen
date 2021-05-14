@@ -1,7 +1,7 @@
 import { ObjectID } from 'mongodb';
-import withSession from '../../lib/session';
-import { HttpError } from '../../lib/errors';
-import { connectToDatabase } from '../../lib/db';
+import withSession from '../../../lib/session';
+import { HttpError } from '../../../lib/errors';
+import { connectToDatabase } from '../../../lib/db';
 
 export default withSession(async (req, res) => {
   const { method, body } = await req;

@@ -20,7 +20,7 @@ const VerifyEmailPage = () => {
     setClickedButton(true);
     try {
       await mutateUser(
-        fetchJson('/api/verify-email', {
+        fetchJson('/api/auth/verify-email', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),

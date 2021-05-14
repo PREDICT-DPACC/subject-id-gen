@@ -6,7 +6,7 @@ export default function useUser({
   redirectTo = false,
   redirectIfFound = false,
 } = {}) {
-  const { data: user, mutate: mutateUser } = useSWR('/api/user');
+  const { data: user, mutate: mutateUser } = useSWR('/api/auth/user');
 
   useEffect(() => {
     // if no redirect needed or no user obj, return

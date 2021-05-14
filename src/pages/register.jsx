@@ -60,10 +60,9 @@ const RegisterPage = () => {
     };
 
     try {
-      console.log(await schema.validate(body));
       await schema.validate(body);
       await mutateUser(
-        fetchJson('/api/register', {
+        fetchJson('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),

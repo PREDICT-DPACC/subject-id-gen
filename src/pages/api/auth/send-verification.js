@@ -1,7 +1,7 @@
-import { connectToDatabase } from '../../lib/db';
-import { getToken } from '../../lib/token';
-import { sendVerificationEmail } from '../../lib/mail';
-import { HttpError } from '../../lib/errors';
+import { connectToDatabase } from '../../../lib/db';
+import { getToken } from '../../../lib/token';
+import { sendVerificationEmail } from '../../../lib/mail';
+import { HttpError } from '../../../lib/errors';
 
 export default async (req, res) => {
   const { method, body } = await req;
