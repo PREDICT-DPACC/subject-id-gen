@@ -5,7 +5,7 @@ const AdminSiteTable = ({ sites }) => (
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Subject IDs</th>
+      <th>Used IDs</th>
       <th>Members</th>
       <th style={{ width: '15%' }}>Manager(s)</th>
       <th>Actions</th>
@@ -24,7 +24,7 @@ const AdminSiteTable = ({ sites }) => (
           <td>{site.members.length}</td>
           <td>
             {site.members
-              .filter(member => member.role === 'manager')
+              .filter(member => member.siteRole === 'manager')
               .map((member, index) => (
                 <>
                   {member.firstName} {member.lastName}
