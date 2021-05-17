@@ -1,8 +1,10 @@
+/* eslint-disable no-console */
 // To be used from the CLI or package.json script, and only once.
 
 const dotenv = require('dotenv');
 const { MongoClient } = require('mongodb');
 const sites = require('./sites.json');
+const generateIds = require('./genIds.js');
 
 const seed = async () => {
   try {
@@ -28,11 +30,22 @@ const seed = async () => {
       members: [],
     }));
 
+    console.log('Populating DB with sites...');
     await db.collection('sites').insertMany(sitesWithFields);
+    console.log('Success!');
+
+    console.log('Populating DB with ids...');
+    await Promise.all(
+      sites.map(async site => {
+        console.log(`...for site: ${site.name}`);
+        const idsForSite = generateIds({ site: site.id, n: 9999 });
+        await db.collection('subjectids').insertMany(idsForSite);
+      })
+    );
     console.log('Success!');
     process.exit(0);
   } catch (error) {
-    console.error(error.message);
+    console.trace(error);
     process.exit(1);
   }
 };
