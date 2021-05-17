@@ -28,9 +28,13 @@ const Navigation = ({ user, mutateUser, setError, router }) => {
   return (
     <div className={styles.navbar}>
       <NavLink path="/" title="Home" />
-      {user.role === 'admin' && (
+      {user?.isVerified && user?.role === 'admin' && (
         <NavLink path="/admin" title="Administration" />
       )}
+      {user?.isVerified &&
+        user?.access.some(siteAccess => siteAccess.siteRole === 'manager') && (
+          <NavLink path="/sites" title="Manage Site(s)" />
+        )}
       <a
         href="/api/auth/logout"
         className={styles.navlink}

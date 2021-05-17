@@ -6,7 +6,7 @@ import fetchJson from '../../lib/fetchJson';
 import Navigation from '../../components/Navigation';
 import AdminNav from '../../components/Admin/AdminNav';
 import AdminUserTable from '../../components/Admin/AdminUserTable';
-import AdminSiteTable from '../../components/Admin/AdminSiteTable';
+import SiteTable from '../../components/SiteTable';
 
 export default function AdminUsersPage() {
   const { user, mutateUser } = useUser({
@@ -69,11 +69,13 @@ export default function AdminUsersPage() {
             setError={setError}
             router={router}
           />
-          {user?.role !== 'admin' && (
+          {(!user?.isVerified || user?.role !== 'admin') && (
             <div>You are not authorized to view this page.</div>
           )}
-          {user?.role === 'admin' && state.tableLoading && <p>Loading...</p>}
-          {user?.role === 'admin' && !state.tableLoading && (
+          {user?.isVerified && user?.role === 'admin' && state.tableLoading && (
+            <p>Loading...</p>
+          )}
+          {user?.isVerified && user?.role === 'admin' && !state.tableLoading && (
             <>
               {state.errorMsg !== '' && <div>{state.errorMsg}</div>}
               <AdminNav
@@ -87,7 +89,9 @@ export default function AdminUsersPage() {
                   router={router}
                 />
               )}
-              {state.data.sites && <AdminSiteTable sites={state.data.sites} />}
+              {state.data.sites && (
+                <SiteTable sites={state.data.sites} mode="admin" />
+              )}
             </>
           )}
         </>
