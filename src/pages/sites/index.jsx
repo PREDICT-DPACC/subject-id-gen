@@ -48,7 +48,12 @@ export default function ManageSitesPage() {
   );
 
   useEffect(() => {
-    if (user?.role === 'admin') {
+    if (
+      user?.isLoggedIn &&
+      user?.isVerified &&
+      (user?.role === 'admin' ||
+        user?.access.some(siteAccess => siteAccess.siteRole === 'manager'))
+    ) {
       setTableLoading(true);
       fetchData(
         user.access

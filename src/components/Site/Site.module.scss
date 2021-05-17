@@ -1,0 +1,21 @@
+.grid {
+  // Layout for Site management
+}
+
+.table {
+  padding: 10px;
+  margin-top: 10px;
+  border-collapse: collapse;
+  width: 300px;
+  max-width: 300px;
+  td, th {
+    padding: 10px;
+  }
+  td { 
+    border: 1px solid #CCC;
+  }
+  th {
+    background-color: #EFEFEF;
+    border: 1px solid #EFEFEF;
+  }
+}
