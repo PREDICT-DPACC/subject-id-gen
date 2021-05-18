@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
-import styles from '../Admin.module.scss';
+import styles from '../../../styles/Admin.module.scss';
+import tableStyles from '../../../styles/Table.module.scss';
 
 const AdminUserTable = ({ users }) => {
   const router = useRouter();
   return (
-    <table className={styles.table}>
+    <table className={`${tableStyles.table} ${styles.admintable}`}>
       <tr>
         <th>First Name</th>
         <th>Last Name</th>

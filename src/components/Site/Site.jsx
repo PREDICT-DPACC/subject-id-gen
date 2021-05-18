@@ -1,4 +1,5 @@
 import styles from './Site.module.scss';
+import tableStyles from '../../styles/Table.module.scss';
 
 const Site = ({ user, site, addUser, handleSelect, removeUser }) => (
   <>
@@ -6,7 +7,7 @@ const Site = ({ user, site, addUser, handleSelect, removeUser }) => (
     <div className={styles.grid}>
       <div>
         <h4>Members</h4>
-        <table className={styles.table}>
+        <table className={`${tableStyles.table} ${styles.sitetable}`}>
           <thead>
             <tr>
               <th>Name</th>

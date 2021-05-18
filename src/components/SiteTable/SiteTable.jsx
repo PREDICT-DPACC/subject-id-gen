@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import styles from '../Admin/Admin.module.scss';
+import styles from '../../styles/Admin.module.scss';
+import tableStyles from '../../styles/Table.module.scss';
 
 const SiteTable = ({ sites, mode }) => {
   const router = useRouter();
@@ -8,7 +9,7 @@ const SiteTable = ({ sites, mode }) => {
     router.push(`/sites/${e.target.name}`);
   };
   return (
-    <table className={styles.table}>
+    <table className={`${tableStyles.table} ${styles.admintable}`}>
       <tr>
         <th>ID</th>
         <th>Name</th>

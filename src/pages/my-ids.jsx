@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
 import sitesList from '../lib/sites';
+import tableStyles from '../styles/Table.module.scss';
 
 const MyIdsPage = () => {
   const { user, mutateUser } = useUser({
@@ -110,7 +111,7 @@ const MyIdsPage = () => {
               </div>
               {state.ids && state.ids.length > 0 && (
                 <div>
-                  <table>
+                  <table className={tableStyles.table}>
                     <thead>
                       <tr>
                         <th>ID</th>
