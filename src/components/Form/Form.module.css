@@ -30,6 +30,28 @@
   font-size: 1rem;
 }
 
+.horizbutton {
+  padding: 5px;
+  margin: 0.3rem 0 1rem;
+  font-size: 1.01rem;
+}
+
+.inputgroup {
+  display: flex;
+  align-items: flex-end;
+}
+
+.inputgroup div {
+  margin: 10px;
+}
+
+.selectfield {
+  padding: 7px;
+  margin: 0.3rem 0 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .error {
   color: red;
   margin-bottom: 1rem;

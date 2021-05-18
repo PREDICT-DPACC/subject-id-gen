@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
 import fetchJson from '../lib/fetchJson';
@@ -78,7 +78,7 @@ export default function Home() {
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}
           {!user?.isVerified && (
-            <>
+            <div className={styles.maintext}>
               {!state.sentEmail && (
                 <>
                   <p>
@@ -96,13 +96,15 @@ export default function Home() {
                 </>
               )}
               {state.sentEmail && <p>Verification email sent.</p>}
-            </>
+            </div>
           )}
           {user?.isVerified && (!user?.access || user?.access.length === 0) && (
-            <div>
+            <div className={styles.maintext}>
               <p>You have not yet been added to any sites.</p>
               <p>
                 The site manager for each site you requested has been notified.
+                (If there is not yet a site manager, the system administrator
+                has been notified.)
               </p>
               <p>
                 Once you have been added to the sites you requested, you will be
@@ -127,7 +129,10 @@ export default function Home() {
                   ))}
                 </>
               )}
-              <p>To see previously generated IDs, please visit My IDs.</p>
+              <p>
+                To see previously generated IDs, please visit{' '}
+                <Link href="/my-ids">My IDs</Link>.
+              </p>
             </>
           )}
         </>

@@ -80,6 +80,22 @@ export default withSession(async (req, res) => {
             .toArray();
           res.status(200).json({ ids: JSON.parse(JSON.stringify(idArray)) });
         }
+      } else if (action === 'list') {
+        const idArray = await db
+          .collection('subjectids')
+          .find(
+            {
+              site: siteId,
+              used: true,
+              usedBy: email,
+            },
+            {
+              id: 1,
+              usedDate: 1,
+            }
+          )
+          .toArray();
+        res.status(200).json({ ids: JSON.parse(JSON.stringify(idArray)) });
       } else {
         throw new HttpError({
           statuscode: 400,

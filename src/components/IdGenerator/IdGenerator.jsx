@@ -1,17 +1,16 @@
-import styles from './IdGenerator.module.scss';
 import formStyles from '../Form/Form.module.css';
 import sitesList from '../../lib/sites';
 
 const IdGenerator = ({ access, onSubmit, formDisabled }) => (
   <form onSubmit={onSubmit}>
-    <div className={styles.inputgroup}>
+    <div className={formStyles.inputgroup}>
       <div className={formStyles.fieldset}>
         <label htmlFor="site" className={formStyles.label}>
           Site
         </label>
         <select
           name="site"
-          className={styles.selectfield}
+          className={formStyles.selectfield}
           disabled={formDisabled}
         >
           {sitesList
@@ -48,7 +47,11 @@ const IdGenerator = ({ access, onSubmit, formDisabled }) => (
         />
       </div>
       <div className={formStyles.buttongroup}>
-        <button type="submit" className={styles.button} disabled={formDisabled}>
+        <button
+          type="submit"
+          className={formStyles.horizbutton}
+          disabled={formDisabled}
+        >
           Generate
         </button>
       </div>

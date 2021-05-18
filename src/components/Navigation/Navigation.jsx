@@ -30,6 +30,7 @@ const Navigation = ({ user, mutateUser, setError }) => {
   return (
     <div className={styles.navbar}>
       <NavLink path="/" title="Home" />
+      {user?.isVerified && <NavLink path="/my-ids" title="My IDs" />}
       {user?.isVerified && user?.role === 'admin' && (
         <NavLink path="/admin" title="Administration" />
       )}
