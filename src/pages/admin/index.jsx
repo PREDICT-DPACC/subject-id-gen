@@ -1,5 +1,4 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import useUser from '../../lib/useUser';
 import fetchJson from '../../lib/fetchJson';
@@ -12,7 +11,6 @@ export default function AdminUsersPage() {
   const { user, mutateUser } = useUser({
     redirectTo: '/login',
   });
-  const router = useRouter();
 
   const [state, setState] = useState({
     data: {},
@@ -63,12 +61,7 @@ export default function AdminUsersPage() {
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <Navigation
-            user={user}
-            mutateUser={mutateUser}
-            setError={setError}
-            router={router}
-          />
+          <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {(!user?.isVerified || user?.role !== 'admin') && (
             <div>You are not authorized to view this page.</div>
           )}
@@ -83,11 +76,7 @@ export default function AdminUsersPage() {
                 setActiveKey={setActiveKey}
               />
               {state.data.users && (
-                <AdminUserTable
-                  adminUser={user}
-                  users={state.data.users}
-                  router={router}
-                />
+                <AdminUserTable adminUser={user} users={state.data.users} />
               )}
               {state.data.sites && (
                 <SiteTable sites={state.data.sites} mode="admin" />

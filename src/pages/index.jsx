@@ -30,7 +30,6 @@ export default function Home() {
   const { user, mutateUser } = useUser({
     redirectTo: '/login',
   });
-  const router = useRouter();
 
   const handleResendVerification = async e => {
     e.preventDefault();
@@ -74,12 +73,7 @@ export default function Home() {
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <Navigation
-            user={user}
-            mutateUser={mutateUser}
-            setError={setError}
-            router={router}
-          />
+          <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {state.errorMsg && state.errorMsg !== '' && (
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}

@@ -1,8 +1,10 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import fetchJson from '../../lib/fetchJson';
 import styles from './Navigation.module.css';
 
-const Navigation = ({ user, mutateUser, setError, router }) => {
+const Navigation = ({ user, mutateUser, setError }) => {
+  const router = useRouter();
   const handleLogout = async e => {
     e.preventDefault();
     try {

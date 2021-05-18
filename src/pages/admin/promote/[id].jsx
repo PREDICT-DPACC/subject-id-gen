@@ -78,12 +78,7 @@ const PromoteToManagerPage = () => {
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <Navigation
-            user={user}
-            mutateUser={mutateUser}
-            setError={setError}
-            router={router}
-          />
+          <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {user?.role !== 'admin' && (
             <div>You are not authorized to view this page.</div>
           )}

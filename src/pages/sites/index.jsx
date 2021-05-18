@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import useUser from '../../lib/useUser';
 import fetchJson from '../../lib/fetchJson';
@@ -11,7 +10,6 @@ export default function ManageSitesPage() {
   const { user, mutateUser } = useUser({
     redirectTo: '/login',
   });
-  const router = useRouter();
 
   const [state, setState] = useState({
     errorMsg: '',
@@ -68,12 +66,7 @@ export default function ManageSitesPage() {
       {(!user || !user?.isLoggedIn) && <>Loading...</>}
       {user?.isLoggedIn && (
         <>
-          <Navigation
-            user={user}
-            mutateUser={mutateUser}
-            setError={setError}
-            router={router}
-          />
+          <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {state.errorMsg && state.errorMsg !== '' && (
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}
