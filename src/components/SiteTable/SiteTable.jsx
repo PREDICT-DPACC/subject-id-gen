@@ -45,7 +45,7 @@ const SiteTable = ({ sites, mode }) => {
                       )}
                     </>
                   ))}
-                {site.members.filter(member => member.role === 'manager')
+                {site.members.filter(member => member.siteRole === 'manager')
                   .length === 0 && ''}
               </td>
             )}
