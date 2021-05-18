@@ -61,9 +61,6 @@ export default withSession(async (req, res) => {
               { access: 1, requestedSites: 1, firstName: 1, lastName: 1 }
             );
           const { requestedSites, access, firstName, lastName } = foundUser;
-          const sitesToUpdate = access.filter(site =>
-            sites.includes(site.siteId)
-          );
           const sitesToPull = requestedSites.filter(site =>
             sites.includes(site)
           );
@@ -86,26 +83,30 @@ export default withSession(async (req, res) => {
           await db.collection('sites').updateMany(
             {
               siteId: { $in: sites },
-              'members.id': ObjectId(userToFind),
             },
             {
               $set: {
-                'members.$.role': 'manager',
+                'members.$[elem].siteRole': 'manager',
               },
+            },
+            {
+              arrayFilters: [{ 'elem.id': ObjectId(userToFind) }],
             }
           );
           await db.collection('users').updateOne(
             {
               _id: ObjectId(userToFind),
-              'access.siteId': { $in: sitesToUpdate },
             },
             {
               $set: {
-                'access.$[].siteRole': 'manager',
+                'access.$[elem].siteRole': 'manager',
               },
+            },
+            {
+              multi: true,
+              arrayFilters: [{ 'elem.siteId': { $in: sites } }],
             }
           );
-
           // Put user in sites not already in
           await db.collection('sites').updateMany(
             {
