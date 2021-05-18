@@ -7,6 +7,7 @@ import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
 import sitesList from '../lib/sites';
 import tableStyles from '../styles/Table.module.scss';
+import styles from '../styles/Home.module.css';
 
 const MyIdsPage = () => {
   const { user, mutateUser } = useUser({
@@ -121,8 +122,10 @@ const MyIdsPage = () => {
                     <tbody>
                       {state.ids.map(id => (
                         <tr key={id.id}>
-                          <td>{id.id}</td>
-                          <td>{id.usedDate}</td>
+                          <td className={styles.mono}>{id.id}</td>
+                          <td>
+                            {new Date(id.usedDate).toLocaleDateString('en-US')}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
