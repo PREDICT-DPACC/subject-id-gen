@@ -16,16 +16,16 @@ export default function Home() {
     errorMsg: '',
   });
   const setDisabled = val => {
-    setState({ ...state, formDisabled: val });
+    setState(prevState => ({ ...prevState, formDisabled: val }));
   };
   const setSentEmail = val => {
-    setState({ ...state, sentEmail: val });
+    setState(prevState => ({ ...prevState, sentEmail: val }));
   };
   const setError = val => {
-    setState({ ...state, errorMsg: val });
+    setState(prevState => ({ ...prevState, errorMsg: val }));
   };
   const setIds = val => {
-    setState({ ...state, ids: val });
+    setState(prevState => ({ ...prevState, ids: val }));
   };
   const { user, mutateUser } = useUser({
     redirectTo: '/login',

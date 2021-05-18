@@ -40,8 +40,9 @@ const RegisterPage = () => {
       (e.target.type === 'password' || e.target.type === 'text')
     ) {
       if (e.target.value === '')
-        setValidState({ ...validState, [e.target.name]: false });
-      else setValidState({ ...validState, [e.target.name]: true });
+        setValidState(prevState => ({ ...prevState, [e.target.name]: false }));
+      else
+        setValidState(prevState => ({ ...prevState, [e.target.name]: true }));
       console.log(e.target);
     }
   }
