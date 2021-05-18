@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './LoginForm.module.css';
-import formStyles from '../Form/Form.module.css';
+import formStyles from '../../styles/Form.module.css';
 
 const LoginForm = ({ errorMessage, onSubmit }) => (
   <div className={styles.login}>

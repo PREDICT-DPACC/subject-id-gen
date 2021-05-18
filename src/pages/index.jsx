@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
 import fetchJson from '../lib/fetchJson';
-import formStyles from '../components/Form/Form.module.css';
+import formStyles from '../styles/Form.module.css';
 import Navigation from '../components/Navigation';
 import IdGenerator from '../components/IdGenerator';
 import styles from '../styles/Home.module.css';

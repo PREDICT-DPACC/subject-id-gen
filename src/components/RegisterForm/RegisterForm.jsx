@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './RegisterForm.module.css';
-import formStyles from '../Form/Form.module.css';
+import formStyles from '../../styles/Form.module.css';
 import sitesList from '../../lib/sites';
 
 const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (

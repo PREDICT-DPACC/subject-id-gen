@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Layout from '../../components/Layout';
 import useUser from '../../lib/useUser';
 import fetchJson from '../../lib/fetchJson';
-import styles from '../../components/Form/Form.module.css';
+import styles from '../../styles/Form.module.css';
 
 const VerifyEmailPage = () => {
   const { user, mutateUser } = useUser();

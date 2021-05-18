@@ -1,4 +1,4 @@
-import formStyles from '../Form/Form.module.css';
+import formStyles from '../../styles/Form.module.css';
 import sitesList from '../../lib/sites';
 
 const IdGenerator = ({ access, onSubmit, formDisabled }) => (

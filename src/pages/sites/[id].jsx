@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import useUser from '../../lib/useUser';
 import fetchJson from '../../lib/fetchJson';
-import formStyles from '../../components/Form/Form.module.css';
+import formStyles from '../../styles/Form.module.css';
 import Navigation from '../../components/Navigation';
 import Site from '../../components/Site';
 

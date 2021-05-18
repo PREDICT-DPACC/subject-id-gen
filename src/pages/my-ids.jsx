@@ -4,7 +4,7 @@ import useUser from '../lib/useUser';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import fetchJson from '../lib/fetchJson';
-import formStyles from '../components/Form/Form.module.css';
+import formStyles from '../styles/Form.module.css';
 import sitesList from '../lib/sites';
 
 const MyIdsPage = () => {
