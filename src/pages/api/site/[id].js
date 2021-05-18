@@ -8,11 +8,12 @@ const hasAccessToSite = async ({ db, userId, siteId }) => {
     .collection('users')
     .findOne({ _id: ObjectId(userId) }, { access: 1, role: 1 });
   return (
-    foundUser.role === 'admin' ||
-    foundUser.access.some(
-      siteAccess =>
-        siteAccess.siteRole === 'manager' && siteAccess.siteId === siteId
-    )
+    foundUser !== null &&
+    (foundUser.role === 'admin' ||
+      foundUser.access.some(
+        siteAccess =>
+          siteAccess.siteRole === 'manager' && siteAccess.siteId === siteId
+      ))
   );
 };
 
@@ -34,19 +35,71 @@ export default withSession(async (req, res) => {
       }
     } else if (method === 'POST') {
       const siteId = query.id;
+      const { id } = session.get('user');
       const { db } = await connectToDatabase();
-      const { action, userId } = body;
-      if (hasAccessToSite({ db, userId, siteId })) {
+      const { action, userId, userEmail } = body;
+      if (hasAccessToSite({ db, userId: id, siteId })) {
         if (action === 'add-user') {
-          // Add user to site as member
-          // Add site to user
-          const site = await db.collection('sites').findOne({ siteId });
-          res.status(200).json(site);
+          const emailLower = userEmail.toLowerCase();
+          const foundUser = await db
+            .collection('users')
+            .findOne({ email: emailLower }, { access: 1 });
+          if (foundUser === null) {
+            throw new HttpError({
+              statuscode: 404,
+              message: 'User not found with that email',
+            });
+          } else if (
+            foundUser.access.some(siteAccess => siteAccess.siteId === siteId)
+          ) {
+            throw new HttpError({
+              statuscode: 422,
+              message: 'User is already a member of site',
+            });
+          } else {
+            const user = await db.collection('users').findOneAndUpdate(
+              {
+                email: emailLower,
+              },
+              {
+                $push: { access: { siteId, siteRole: 'member' } },
+              },
+              { projection: { firstName: 1, lastName: 1 } }
+            );
+            const { _id, firstName, lastName } = user.value;
+            const site = await db.collection('sites').findOneAndUpdate(
+              { siteId },
+              {
+                $push: {
+                  members: {
+                    id: ObjectId(_id),
+                    siteRole: 'member',
+                    firstName,
+                    lastName,
+                  },
+                },
+              },
+              { returnOriginal: false }
+            );
+            res.status(200).json(site.value);
+          }
         } else if (action === 'remove-user') {
-          // Remove user from site
-          // Remove site from user
-          const site = await db.collection('sites').findOne({ siteId });
-          res.status(200).json(site);
+          await db.collection('users').findOneAndUpdate(
+            {
+              _id: ObjectId(userId),
+            },
+            {
+              $pull: { access: { siteId } },
+            }
+          );
+          const site = await db.collection('sites').findOneAndUpdate(
+            { siteId },
+            {
+              $pull: { members: { id: ObjectId(userId) } },
+            },
+            { returnOriginal: false }
+          );
+          res.status(200).json(site.value);
         } else if (action === 'change-role') {
           const { newRole } = body;
           await db.collection('users').findOneAndUpdate(
@@ -73,7 +126,7 @@ export default withSession(async (req, res) => {
         } else {
           throw new HttpError({
             statuscode: 400,
-            message: `No action field or action ${action} not supported`,
+            message: `No action parameter or action ${action} not supported`,
           });
         }
       } else {

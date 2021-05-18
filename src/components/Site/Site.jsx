@@ -1,6 +1,6 @@
 import styles from './Site.module.scss';
 
-const Site = ({ user, site, handleSelect, removeUser }) => (
+const Site = ({ user, site, addUser, handleSelect, removeUser }) => (
   <>
     <h3>Manage site: {site.name}</h3>
     <div className={styles.grid}>
@@ -52,6 +52,14 @@ const Site = ({ user, site, handleSelect, removeUser }) => (
                 ))}
           </tbody>
         </table>
+      </div>
+      <div>
+        <h4>Add Member</h4>
+        <p>Enter a registered user's email here.</p>
+        <form onSubmit={addUser}>
+          <input type="text" required name="email" />
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </div>
   </>

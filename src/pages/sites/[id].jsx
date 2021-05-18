@@ -37,6 +37,7 @@ export default function SitePage() {
       });
       setData(res);
       setTableLoading(false);
+      setError('');
     } catch (error) {
       setError(error.message);
       setTableLoading(false);
@@ -58,6 +59,16 @@ export default function SitePage() {
     }
   }, [user, fetchData, setTableLoading, id]);
 
+  const postToApi = async ({ body }) => {
+    const res = await fetchJson(`/api/site/${id}`, {
+      method: 'POST',
+      body,
+      headers: { 'Content-Type': 'application/json' },
+    });
+    setData(res);
+    setTableLoading(false);
+  };
+
   const handleSelect = async e => {
     e.preventDefault();
     setTableLoading(true);
@@ -65,13 +76,8 @@ export default function SitePage() {
     const userId = e.target.getAttribute('data-id');
     const body = { newRole, userId, action: 'change-role' };
     try {
-      const res = await fetchJson(`/api/site/${id}`, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      setData(res);
-      setTableLoading(false);
+      await postToApi({ body: JSON.stringify(body) });
+      setError('');
     } catch (error) {
       setError(error.message);
       setTableLoading(false);
@@ -84,13 +90,22 @@ export default function SitePage() {
     const userId = e.target.getAttribute('data-id');
     const body = { userId, action: 'remove-user' };
     try {
-      const res = await fetchJson(`/api/site/${id}`, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      setData(res);
+      await postToApi({ body: JSON.stringify(body) });
+      setError('');
+    } catch (error) {
+      setError(error.message);
       setTableLoading(false);
+    }
+  };
+
+  const addUser = async e => {
+    e.preventDefault();
+    setTableLoading(true);
+    const userEmail = e.currentTarget.email.value;
+    const body = { userEmail, action: 'add-user' };
+    try {
+      await postToApi({ body: JSON.stringify(body) });
+      setError('');
     } catch (error) {
       setError(error.message);
       setTableLoading(false);
@@ -125,6 +140,7 @@ export default function SitePage() {
                   <Site
                     site={state.data}
                     user={user}
+                    addUser={addUser}
                     handleSelect={handleSelect}
                     removeUser={removeUser}
                   />
