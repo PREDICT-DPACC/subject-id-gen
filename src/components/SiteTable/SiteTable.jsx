@@ -36,7 +36,9 @@ const SiteTable = ({ sites, mode }) => {
                   .map((member, index) => (
                     <>
                       {member.firstName} {member.lastName}
-                      {index !== site.members.length - 1 && (
+                      {index + 1 !==
+                        site.members.filter(mbr => mbr.siteRole === 'manager')
+                          .length && (
                         <>
                           , <br />
                         </>
