@@ -67,6 +67,7 @@ export default function SitePage() {
     });
     setData(res);
     setTableLoading(false);
+    setError('');
   };
 
   const handleSelect = async e => {
@@ -77,7 +78,6 @@ export default function SitePage() {
     const body = { newRole, userId, action: 'change-role' };
     try {
       await postToApi({ body: JSON.stringify(body) });
-      setError('');
     } catch (error) {
       setError(error.message);
       setTableLoading(false);
@@ -91,7 +91,6 @@ export default function SitePage() {
     const body = { userId, action: 'remove-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
-      setError('');
     } catch (error) {
       setError(error.message);
       setTableLoading(false);
@@ -105,7 +104,6 @@ export default function SitePage() {
     const body = { userEmail, action: 'add-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
-      setError('');
     } catch (error) {
       setError(error.message);
       setTableLoading(false);

@@ -17,6 +17,7 @@ const MyIdsPage = () => {
     ids: [],
     errorMsg: '',
     noIdsForSite: false,
+    loading: false,
   });
   const setError = val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
@@ -27,9 +28,13 @@ const MyIdsPage = () => {
   const setNoIdsForSite = val => {
     setState(prevState => ({ ...prevState, noIdsForSite: val }));
   };
+  const setLoading = val => {
+    setState(prevState => ({ ...prevState, loading: val }));
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setLoading(true);
     try {
       const body = {
         action: 'list',
@@ -44,8 +49,10 @@ const MyIdsPage = () => {
       if (res.ids.length === 0) {
         setNoIdsForSite(true);
       } else setNoIdsForSite(false);
+      setLoading(false);
     } catch (error) {
       setError(error.message);
+      setLoading(false);
     }
   };
 
@@ -71,9 +78,9 @@ const MyIdsPage = () => {
               </p>
             </div>
           )}
+          <h4>My Generated IDs</h4>
           {user?.isVerified && user?.access && user?.access.length > 0 && (
             <>
-              <h4>My Generated IDs</h4>
               <div>
                 <form onSubmit={handleSubmit}>
                   <div className={formStyles.inputgroup}>
@@ -110,29 +117,33 @@ const MyIdsPage = () => {
                   </div>
                 </form>
               </div>
-              {state.ids && state.ids.length > 0 && (
-                <div>
-                  <table className={tableStyles.table}>
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Date used</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {state.ids.map(id => (
-                        <tr key={id.id}>
-                          <td className={styles.mono}>{id.id}</td>
-                          <td>
-                            {new Date(id.usedDate).toLocaleDateString('en-US')}
-                          </td>
+              {state.loading && <p>Loading...</p>}
+              {!state.loading && state.ids && state.ids.length > 0 && (
+                <>
+                  <p>The following IDs are marked as used in the database:</p>
+                  <div>
+                    <table className={tableStyles.table}>
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Date generated</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {state.ids.map(id => (
+                          <tr key={id.id}>
+                            <td className={styles.mono}>{id.id}</td>
+                            <td>
+                              {new Date(id.usedDate).toLocaleString('en-US')}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
               )}
-              {state.noIdsForSite === true && (
+              {!state.loading && state.noIdsForSite === true && (
                 <p>You have not generated any IDs for this site yet.</p>
               )}
             </>

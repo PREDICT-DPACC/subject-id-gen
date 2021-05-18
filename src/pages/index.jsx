@@ -62,6 +62,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
       });
       setIds(res.ids);
+      setDisabled(false);
     } catch (error) {
       setDisabled(false);
       setError(error.message);
