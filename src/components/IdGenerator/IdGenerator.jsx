@@ -39,6 +39,8 @@ const IdGenerator = ({ access, onSubmit, formDisabled }) => (
         <input
           type="number"
           name="quantity"
+          required
+          defaultValue={1}
           min="1"
           max="100"
           className={formStyles.field}
