@@ -60,4 +60,34 @@ const sendVerificationEmail = async ({ email, token }) => {
   });
 };
 
-export { sendVerificationEmail };
+const sendPasswordResetEmail = async ({ email, token }) => {
+  await transporter.sendMail({
+    from: EMAIL_FROM,
+    to: email,
+    subject: 'Subject ID Generator: Reset password',
+    text: `Subject ID Generator
+    
+    Go to the following link to reset your password:
+    ${BASE_URL}/reset-password/${token}`,
+    html: `
+      <div style="text-align: center; width: 350px;">
+        <h1>Subject ID Generator</h1>
+        <div style="border-radius: 5px; border: 1px solid #CCC; padding: 10px;">
+        <p>
+          Password reset:
+        </p>
+        <p>
+          <a href="${BASE_URL}/reset-password/${token}">
+            Click here to reset your password.
+          </a>
+        </p>
+        <p>
+          If you did not request a password reset, please ignore this email.
+        </p>
+      </div>
+      </div>
+    `,
+  });
+};
+
+export { sendVerificationEmail, sendPasswordResetEmail };

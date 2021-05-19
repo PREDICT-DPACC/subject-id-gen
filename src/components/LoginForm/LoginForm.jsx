@@ -32,6 +32,12 @@ const LoginForm = ({ errorMessage, onSubmit, disabled }) => (
         />
       </div>
 
+      <div className={formStyles.small}>
+        <small>
+          Forgot your password? <Link href="/reset-password">Click here</Link>{' '}
+          to reset it.
+        </small>
+      </div>
       <div className={formStyles.buttongroup}>
         <button type="submit" className={formStyles.button} disabled={disabled}>
           Login

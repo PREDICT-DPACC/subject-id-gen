@@ -49,6 +49,10 @@ export async function connectToDatabase() {
           { createdAt: 1 },
           { expireAfterSeconds: 172800 }
         );
+        db.collection('reset_tokens').createIndex(
+          { createdAt: 1 },
+          { expireAfterSeconds: 172800 }
+        );
         conn.db = db;
         return conn;
       });
