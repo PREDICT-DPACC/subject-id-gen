@@ -3,10 +3,10 @@ import tableStyles from '../../styles/Table.module.scss';
 
 const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
   <>
-    <h3>Manage site: {site.name}</h3>
-    <div className={styles.grid}>
+    <h2>Manage site: {site.name}</h2>
+    <div className={styles.site}>
       <div>
-        <h4>Members</h4>
+        <h3>Members</h3>
         <table className={`${tableStyles.table} ${styles.sitetable}`}>
           <thead>
             <tr>
@@ -63,7 +63,7 @@ const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
         </form>
       </div>
       <div>
-        <h4>Used IDs</h4>
+        <h3>Used IDs</h3>
         <p>List used IDs for this site.</p>
         <button type="button" onClick={showIds}>
           Show IDs

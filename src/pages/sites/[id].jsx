@@ -138,6 +138,7 @@ export default function SitePage() {
         setNoIdsForSite(true);
       } else setNoIdsForSite(false);
       setIdsLoading(false);
+      e.target.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
       setError(error.message);
       setIdsLoading(false);
