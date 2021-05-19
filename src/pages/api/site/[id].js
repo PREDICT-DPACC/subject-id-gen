@@ -53,14 +53,14 @@ export default withSession(async (req, res) => {
             .findOne({ email: emailLower }, { access: 1 });
           if (foundUser === null) {
             throw new HttpError({
-              statuscode: 404,
+              statusCode: 404,
               message: 'User not found with that email',
             });
           } else if (
             foundUser.access.some(siteAccess => siteAccess.siteId === siteId)
           ) {
             throw new HttpError({
-              statuscode: 422,
+              statusCode: 422,
               message: 'User is already a member of site',
             });
           } else {
@@ -132,7 +132,7 @@ export default withSession(async (req, res) => {
           res.status(200).json(site.value);
         } else {
           throw new HttpError({
-            statuscode: 400,
+            statusCode: 400,
             message: `No action parameter or action ${action} not supported`,
           });
         }

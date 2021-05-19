@@ -43,7 +43,7 @@ export default withSession(async (req, res) => {
         const { idseq } = site;
         if (idseq + quantityN > 10000) {
           throw new HttpError({
-            statuscode: 422,
+            statusCode: 422,
             message: `There are not enough IDs left for that site. Remaining IDs: ${
               10000 - idseq
             }`,
@@ -132,7 +132,7 @@ export default withSession(async (req, res) => {
         }
       } else {
         throw new HttpError({
-          statuscode: 400,
+          statusCode: 400,
           message: `No action parameter or action ${action} not supported`,
         });
       }
