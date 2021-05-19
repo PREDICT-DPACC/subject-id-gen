@@ -40,7 +40,6 @@ const NewPasswordPage = () => {
 
   const fetchData = useCallback(async () => {
     try {
-      console.log(token);
       const body = {
         token,
         action: 'verify-token',
