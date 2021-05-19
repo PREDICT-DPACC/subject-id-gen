@@ -80,7 +80,7 @@ export default withSession(async (req, res) => {
             .toArray();
           res.status(200).json({ ids: JSON.parse(JSON.stringify(idArray)) });
         }
-      } else if (action === 'list') {
+      } else if (action === 'list-mine') {
         const idArray = await db
           .collection('subjectids')
           .find(
@@ -96,6 +96,29 @@ export default withSession(async (req, res) => {
           )
           .toArray();
         res.status(200).json({ ids: JSON.parse(JSON.stringify(idArray)) });
+      } else if (action === 'list-all') {
+        if (
+          !(
+            foundUser.role === 'admin' ||
+            access.some(
+              site => site.siteId === siteId && site.siteRole === 'manager'
+            )
+          )
+        ) {
+          throw new HttpError({
+            statusCode: 403,
+            message: 'Unauthorized',
+          });
+        } else {
+          const idArray = await db
+            .collection('subjectids')
+            .find({
+              site: siteId,
+              used: true,
+            })
+            .toArray();
+          res.status(200).json({ ids: JSON.parse(JSON.stringify(idArray)) });
+        }
       } else {
         throw new HttpError({
           statuscode: 400,

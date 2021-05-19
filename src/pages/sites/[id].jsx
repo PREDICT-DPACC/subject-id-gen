@@ -6,6 +6,7 @@ import fetchJson from '../../lib/fetchJson';
 import formStyles from '../../styles/Form.module.css';
 import Navigation from '../../components/Navigation';
 import Site from '../../components/Site';
+import IdTable from '../../components/IdTable';
 
 export default function SitePage() {
   const { user, mutateUser } = useUser({
@@ -17,7 +18,10 @@ export default function SitePage() {
   const [state, setState] = useState({
     errorMsg: '',
     data: {},
-    tableLoading: true,
+    membersLoading: true,
+    idsLoading: false,
+    idList: [],
+    noIdsForSite: false,
   });
   const setError = useCallback(val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
@@ -25,8 +29,17 @@ export default function SitePage() {
   const setData = useCallback(val => {
     setState(prevState => ({ ...prevState, data: val }));
   }, []);
-  const setTableLoading = useCallback(val => {
-    setState(prevState => ({ ...prevState, tableLoading: val }));
+  const setMembersLoading = useCallback(val => {
+    setState(prevState => ({ ...prevState, membersLoading: val }));
+  }, []);
+  const setIdsLoading = useCallback(val => {
+    setState(prevState => ({ ...prevState, idsLoading: val }));
+  }, []);
+  const setIdList = useCallback(val => {
+    setState(prevState => ({ ...prevState, idList: val }));
+  }, []);
+  const setNoIdsForSite = useCallback(val => {
+    setState(prevState => ({ ...prevState, noIdsForSite: val }));
   }, []);
 
   const fetchData = useCallback(async () => {
@@ -36,13 +49,13 @@ export default function SitePage() {
         headers: { 'Content-Type': 'application/json' },
       });
       setData(res);
-      setTableLoading(false);
+      setMembersLoading(false);
       setError('');
     } catch (error) {
       setError(error.message);
-      setTableLoading(false);
+      setMembersLoading(false);
     }
-  }, [id, setData, setError, setTableLoading]);
+  }, [id, setData, setError, setMembersLoading]);
 
   useEffect(() => {
     if (
@@ -54,10 +67,10 @@ export default function SitePage() {
             siteAccess.siteRole === 'manager' && siteAccess.siteId === id
         ))
     ) {
-      setTableLoading(true);
+      setMembersLoading(true);
       fetchData(id);
     }
-  }, [user, fetchData, setTableLoading, id]);
+  }, [user, fetchData, setMembersLoading, id]);
 
   const postToApi = async ({ body }) => {
     const res = await fetchJson(`/api/site/${id}`, {
@@ -66,13 +79,13 @@ export default function SitePage() {
       headers: { 'Content-Type': 'application/json' },
     });
     setData(res);
-    setTableLoading(false);
+    setMembersLoading(false);
     setError('');
   };
 
   const handleSelect = async e => {
     e.preventDefault();
-    setTableLoading(true);
+    setMembersLoading(true);
     const newRole = e.target.value;
     const userId = e.target.getAttribute('data-id');
     const body = { newRole, userId, action: 'change-role' };
@@ -80,33 +93,54 @@ export default function SitePage() {
       await postToApi({ body: JSON.stringify(body) });
     } catch (error) {
       setError(error.message);
-      setTableLoading(false);
+      setMembersLoading(false);
     }
   };
 
   const removeUser = async e => {
     e.preventDefault();
-    setTableLoading(true);
+    setMembersLoading(true);
     const userId = e.target.getAttribute('data-id');
     const body = { userId, action: 'remove-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
     } catch (error) {
       setError(error.message);
-      setTableLoading(false);
+      setMembersLoading(false);
     }
   };
 
   const addUser = async e => {
     e.preventDefault();
-    setTableLoading(true);
+    setMembersLoading(true);
     const userEmail = e.currentTarget.email.value;
     const body = { userEmail, action: 'add-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
     } catch (error) {
       setError(error.message);
-      setTableLoading(false);
+      setMembersLoading(false);
+    }
+  };
+
+  const showIds = async e => {
+    e.preventDefault();
+    setIdsLoading(true);
+    const body = { siteId: id, action: 'list-all' };
+    try {
+      const res = await fetchJson('/api/ids', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      setIdList(res.ids);
+      if (res.ids.length === 0) {
+        setNoIdsForSite(true);
+      } else setNoIdsForSite(false);
+      setIdsLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setIdsLoading(false);
     }
   };
 
@@ -128,15 +162,35 @@ export default function SitePage() {
               siteAccess => siteAccess.siteRole === 'manager'
             ) && (
               <>
-                {(state.tableLoading || !state.data) && <p>Loading...</p>}
-                {!state.tableLoading && state.data && (
-                  <Site
-                    site={state.data}
-                    user={user}
-                    addUser={addUser}
-                    handleSelect={handleSelect}
-                    removeUser={removeUser}
-                  />
+                {(state.membersLoading || !state.data) && <p>Loading...</p>}
+                {!state.membersLoading && state.data && (
+                  <>
+                    <Site
+                      site={state.data}
+                      user={user}
+                      addUser={addUser}
+                      handleSelect={handleSelect}
+                      removeUser={removeUser}
+                      showIds={showIds}
+                    />
+                    {state.idsLoading && <p>Loading...</p>}
+                    {!state.idsLoading &&
+                      state.idList &&
+                      state.idList.length > 0 && (
+                        <>
+                          <p>
+                            The following IDs are marked as used in the
+                            database:
+                          </p>
+                          <div>
+                            <IdTable ids={state.idList} mode="manage" />
+                          </div>
+                        </>
+                      )}
+                    {!state.idsLoading && state.noIdsForSite === true && (
+                      <p>There are no used IDs for this site yet.</p>
+                    )}
+                  </>
                 )}
               </>
             )}

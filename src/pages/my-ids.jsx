@@ -6,8 +6,7 @@ import Navigation from '../components/Navigation';
 import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
 import sitesList from '../lib/sites';
-import tableStyles from '../styles/Table.module.scss';
-import styles from '../styles/Home.module.css';
+import IdTable from '../components/IdTable';
 
 const MyIdsPage = () => {
   const { user, mutateUser } = useUser({
@@ -37,7 +36,7 @@ const MyIdsPage = () => {
     setLoading(true);
     try {
       const body = {
-        action: 'list',
+        action: 'list-mine',
         siteId: e.currentTarget.site.value,
       };
       const res = await fetchJson('/api/ids', {
@@ -122,24 +121,7 @@ const MyIdsPage = () => {
                 <>
                   <p>The following IDs are marked as used in the database:</p>
                   <div>
-                    <table className={tableStyles.table}>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Date generated</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {state.ids.map(id => (
-                          <tr key={id.id}>
-                            <td className={styles.mono}>{id.id}</td>
-                            <td>
-                              {new Date(id.usedDate).toLocaleString('en-US')}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                    <IdTable ids={state.ids} mode="mine" />
                   </div>
                 </>
               )}

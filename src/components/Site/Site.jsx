@@ -1,7 +1,7 @@
 import styles from './Site.module.scss';
 import tableStyles from '../../styles/Table.module.scss';
 
-const Site = ({ user, site, addUser, handleSelect, removeUser }) => (
+const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
   <>
     <h3>Manage site: {site.name}</h3>
     <div className={styles.grid}>
@@ -61,6 +61,13 @@ const Site = ({ user, site, addUser, handleSelect, removeUser }) => (
           <input type="text" required name="email" />
           <button type="submit">Submit</button>
         </form>
+      </div>
+      <div>
+        <h4>Used IDs</h4>
+        <p>List used IDs for this site.</p>
+        <button type="button" onClick={showIds}>
+          Show IDs
+        </button>
       </div>
     </div>
   </>
