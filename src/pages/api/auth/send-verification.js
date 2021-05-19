@@ -21,14 +21,21 @@ export default async (req, res) => {
     const userId = await db
       .collection('users')
       .findOne({ email: emailLower }, { _id: 1 });
-    const { _id } = userId;
-    await db.collection('auth_tokens').insertOne({
-      createdAt: new Date(),
-      token,
-      user: _id,
-    });
-    await sendVerificationEmail({ email: emailLower, token });
-    res.status(200).json({ message: 'ok' });
+    if (userId === null) {
+      throw new HttpError({
+        statusCode: 404,
+        message: `User with email ${emailLower} not found.`,
+      });
+    } else {
+      const { _id } = userId;
+      await db.collection('auth_tokens').insertOne({
+        createdAt: new Date(),
+        token,
+        user: _id,
+      });
+      await sendVerificationEmail({ email: emailLower, token });
+      res.status(200).json({ message: 'ok' });
+    }
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
   }
