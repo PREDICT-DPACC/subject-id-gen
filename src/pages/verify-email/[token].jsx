@@ -27,8 +27,8 @@ const VerifyEmailPage = () => {
         })
       );
       router.reload();
+      setErrorMsg('');
     } catch (error) {
-      console.error('An unexpected error happened:', error);
       setErrorMsg(error.message);
     }
   };
