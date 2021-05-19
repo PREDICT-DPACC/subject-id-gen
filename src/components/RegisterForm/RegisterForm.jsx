@@ -55,7 +55,7 @@ const RegisterForm = ({
           Email
         </label>
         <input
-          type="text"
+          type="email"
           name="email"
           autoComplete="email"
           disabled={disabled}
