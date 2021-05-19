@@ -41,8 +41,8 @@ export default withSession(async (req, res) => {
       const { action, userId, userEmail } = body;
       const schema = yup.object().shape({
         action: yup.string().required(),
-        userId: yup.string().required(),
-        userEmail: yup.string().email().required(),
+        userId: yup.string(),
+        userEmail: yup.string().email(),
       });
       await schema.validate({ action, userId, userEmail });
       if (hasAccessToSite({ db, userId: id, siteId })) {
