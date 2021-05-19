@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import * as yup from 'yup';
 import withSession from '../../../lib/session';
 import { connectToDatabase } from '../../../lib/db';
@@ -62,7 +63,7 @@ export default withSession(async (req, res) => {
     await db.collection('auth_tokens').insertOne({
       createdAt: new Date(),
       token,
-      user: _id,
+      user: ObjectId(_id),
     });
 
     await sendVerificationEmail({ email: emailLower, token });

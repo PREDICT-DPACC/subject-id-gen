@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '../../../lib/db';
 import { getToken } from '../../../lib/token';
 import { sendVerificationEmail } from '../../../lib/mail';
@@ -31,7 +32,7 @@ export default async (req, res) => {
       await db.collection('auth_tokens').insertOne({
         createdAt: new Date(),
         token,
-        user: _id,
+        user: ObjectId(_id),
       });
       await sendVerificationEmail({ email: emailLower, token });
       res.status(200).json({ message: 'ok' });

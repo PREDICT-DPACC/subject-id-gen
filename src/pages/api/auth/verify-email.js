@@ -1,4 +1,4 @@
-import { ObjectID } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import withSession from '../../../lib/session';
 import { HttpError } from '../../../lib/errors';
 import { connectToDatabase } from '../../../lib/db';
@@ -20,7 +20,7 @@ export default withSession(async (req, res) => {
 
     const foundToken = await db
       .collection('auth_tokens')
-      .findOne({ token: verificationToken, user: ObjectID(userId) });
+      .findOne({ token: verificationToken, user: ObjectId(userId) });
 
     if (foundToken === null) {
       throw new HttpError({
@@ -32,7 +32,7 @@ export default withSession(async (req, res) => {
     const foundUser = await db
       .collection('users')
       .findOneAndUpdate(
-        { _id: ObjectID(userId) },
+        { _id: ObjectId(userId) },
         { $set: { isVerified: true } }
       );
 
@@ -49,7 +49,7 @@ export default withSession(async (req, res) => {
     await req.session.save();
     await db
       .collection('auth_tokens')
-      .deleteOne({ token: verificationToken, user: ObjectID(userId) });
+      .deleteOne({ token: verificationToken, user: ObjectId(userId) });
     res.json(user);
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });
