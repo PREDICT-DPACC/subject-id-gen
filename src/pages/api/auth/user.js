@@ -17,7 +17,7 @@ export default withSession(async (req, res) => {
         id,
         isLoggedIn: true,
         isVerified,
-        email,
+        email: email.toLowerCase(),
         access,
         role,
       };

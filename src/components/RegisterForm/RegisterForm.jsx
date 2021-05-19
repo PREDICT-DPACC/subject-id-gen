@@ -3,7 +3,13 @@ import styles from './RegisterForm.module.css';
 import formStyles from '../../styles/Form.module.css';
 import sitesList from '../../lib/sites';
 
-const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
+const RegisterForm = ({
+  errorMessage,
+  onSubmit,
+  onBlur,
+  validState,
+  disabled,
+}) => (
   <div className={styles.register}>
     <form onSubmit={onSubmit} onBlur={onBlur}>
       <div className={formStyles.fieldset}>
@@ -14,6 +20,7 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
           type="text"
           name="firstName"
           autoComplete="given_name"
+          disabled={disabled}
           className={
             validState.firstName
               ? formStyles.field
@@ -31,6 +38,7 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
           type="text"
           name="lastName"
           autoComplete="family_name"
+          disabled={disabled}
           className={
             validState.lastName
               ? formStyles.field
@@ -48,6 +56,7 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
           type="text"
           name="email"
           autoComplete="email"
+          disabled={disabled}
           className={
             validState.email
               ? formStyles.field
@@ -65,6 +74,7 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
           type="password"
           name="password"
           autoComplete="new-password"
+          disabled={disabled}
           className={
             validState.password
               ? formStyles.field
@@ -82,6 +92,7 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
           type="password"
           name="confirm-password"
           autoComplete="new-password"
+          disabled={disabled}
           className={
             validState['confirm-password']
               ? formStyles.field
@@ -95,7 +106,12 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
         <label htmlFor="sites" className={formStyles.label}>
           Site(s)
         </label>
-        <select name="sites" multiple className={formStyles.field}>
+        <select
+          name="sites"
+          multiple
+          disabled={disabled}
+          className={formStyles.field}
+        >
           {sitesList
             .sort((a, b) => {
               const nameA = a.name.toUpperCase();
@@ -114,7 +130,7 @@ const RegisterForm = ({ errorMessage, onSubmit, onBlur, validState }) => (
 
       {errorMessage && <div className={formStyles.error}>{errorMessage}</div>}
       <div className={formStyles.buttongroup}>
-        <button type="submit" className={formStyles.button}>
+        <button type="submit" disabled={disabled} className={formStyles.button}>
           Register
         </button>
         <div className={formStyles.button}>

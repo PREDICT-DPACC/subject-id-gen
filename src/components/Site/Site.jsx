@@ -58,7 +58,7 @@ const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
         <h4>Add Member</h4>
         <p>Enter a registered user's email here.</p>
         <form onSubmit={addUser}>
-          <input type="text" required name="email" />
+          <input type="email" required name="email" />
           <button type="submit">Submit</button>
         </form>
       </div>

@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import withSession from '../../../lib/session';
 import { HttpError } from '../../../lib/errors';
 import { connectToDatabase } from '../../../lib/db';
@@ -15,6 +16,12 @@ export default withSession(async (req, res) => {
     }
 
     const { email, password } = body;
+
+    const schema = yup.object().shape({
+      email: yup.string().email().required(),
+      password: yup.string().min(6).required(),
+    });
+    await schema.validate({ email, password });
 
     const { db } = await connectToDatabase();
 
@@ -43,7 +50,7 @@ export default withSession(async (req, res) => {
         id: _id,
         isLoggedIn: true,
         isVerified,
-        email,
+        email: emailLower,
         access,
         role,
       };

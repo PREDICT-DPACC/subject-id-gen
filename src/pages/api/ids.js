@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import { ObjectId } from 'mongodb';
 import withSession from '../../lib/session';
 import { HttpError } from '../../lib/errors';
@@ -14,8 +15,13 @@ export default withSession(async (req, res) => {
     } else {
       const { id, email } = session.get('user');
       const { siteId, action, quantity } = body;
-      const quantityN = parseInt(quantity, 10);
       const { db } = await connectToDatabase();
+      const schema = yup.object().shape({
+        email: yup.string().email().required(),
+        siteId: yup.string().max(2).required(),
+      });
+      await schema.validate({ email, siteId });
+      const emailLower = email.toLowerCase();
       const foundUser = await db
         .collection('users')
         .findOne({ _id: ObjectId(id) }, { access: 1 });
@@ -26,6 +32,11 @@ export default withSession(async (req, res) => {
           message: 'Unauthorized',
         });
       } else if (action === 'generate') {
+        const quantityN = parseInt(quantity, 10);
+        const numSchema = yup.object().shape({
+          quantityN: yup.number().max(100),
+        });
+        await numSchema.validate({ quantityN });
         const site = await db
           .collection('sites')
           .findOne({ siteId }, { idseq: 1 });
@@ -50,7 +61,7 @@ export default withSession(async (req, res) => {
             {
               $set: {
                 used: true,
-                usedBy: email,
+                usedBy: emailLower,
               },
               $currentDate: {
                 usedDate: true,
@@ -87,7 +98,7 @@ export default withSession(async (req, res) => {
             {
               site: siteId,
               used: true,
-              usedBy: email,
+              usedBy: emailLower,
             },
             {
               id: 1,

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styles from './LoginForm.module.css';
 import formStyles from '../../styles/Form.module.css';
 
-const LoginForm = ({ errorMessage, onSubmit }) => (
+const LoginForm = ({ errorMessage, onSubmit, disabled }) => (
   <div className={styles.login}>
     {errorMessage && <div className={formStyles.error}>{errorMessage}</div>}
     <form onSubmit={onSubmit}>
@@ -10,7 +10,13 @@ const LoginForm = ({ errorMessage, onSubmit }) => (
         <label htmlFor="email" className={formStyles.label}>
           Email
         </label>
-        <input type="text" name="email" className={formStyles.field} required />
+        <input
+          type="email"
+          name="email"
+          className={formStyles.field}
+          required
+          disabled={disabled}
+        />
       </div>
 
       <div className={formStyles.fieldset}>
@@ -22,11 +28,12 @@ const LoginForm = ({ errorMessage, onSubmit }) => (
           name="password"
           className={formStyles.field}
           required
+          disabled={disabled}
         />
       </div>
 
       <div className={formStyles.buttongroup}>
-        <button type="submit" className={formStyles.button}>
+        <button type="submit" className={formStyles.button} disabled={disabled}>
           Login
         </button>
         <div className={formStyles.button}>

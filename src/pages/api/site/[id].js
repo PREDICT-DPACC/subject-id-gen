@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import { ObjectId } from 'mongodb';
 import withSession from '../../../lib/session';
 import { HttpError } from '../../../lib/errors';
@@ -38,6 +39,12 @@ export default withSession(async (req, res) => {
       const { id } = session.get('user');
       const { db } = await connectToDatabase();
       const { action, userId, userEmail } = body;
+      const schema = yup.object().shape({
+        action: yup.string().required(),
+        userId: yup.string().required(),
+        userEmail: yup.string().email().required(),
+      });
+      await schema.validate({ action, userId, userEmail });
       if (hasAccessToSite({ db, userId: id, siteId })) {
         if (action === 'add-user') {
           const emailLower = userEmail.toLowerCase();

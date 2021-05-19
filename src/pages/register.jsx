@@ -8,12 +8,13 @@ import useUser from '../lib/useUser';
 import styles from '../styles/Login.module.css';
 
 const RegisterPage = () => {
-  const { mutateUser } = useUser({
+  const { user, mutateUser } = useUser({
     redirectTo: '/',
     redirectIfFound: true,
   });
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const [validState, setValidState] = useState({
     firstName: true,
     lastName: true,
@@ -43,11 +44,11 @@ const RegisterPage = () => {
         setValidState(prevState => ({ ...prevState, [e.target.name]: false }));
       else
         setValidState(prevState => ({ ...prevState, [e.target.name]: true }));
-      console.log(e.target);
     }
   }
   async function handleSubmit(e) {
     e.preventDefault();
+    setSubmitting(true);
 
     const sites = [...e.currentTarget.sites.options];
 
@@ -70,20 +71,28 @@ const RegisterPage = () => {
         })
       );
       router.push('/');
+      setSubmitting(false);
     } catch (error) {
       setErrorMsg(error.message);
+      setSubmitting(false);
     }
   }
 
   return (
     <Layout>
-      <p className={styles.description}>Registration</p>
-      <RegisterForm
-        onSubmit={handleSubmit}
-        errorMessage={errorMsg}
-        onBlur={handleBlur}
-        validState={validState}
-      />
+      {(!user || user?.isLoggedIn) && <>Loading...</>}
+      {user && !user.isLoggedIn && (
+        <>
+          <p className={styles.description}>Registration</p>
+          <RegisterForm
+            onSubmit={handleSubmit}
+            errorMessage={errorMsg}
+            onBlur={handleBlur}
+            validState={validState}
+            disabled={submitting}
+          />
+        </>
+      )}
     </Layout>
   );
 };

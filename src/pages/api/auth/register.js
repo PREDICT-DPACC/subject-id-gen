@@ -1,3 +1,4 @@
+import * as yup from 'yup';
 import withSession from '../../../lib/session';
 import { connectToDatabase } from '../../../lib/db';
 import { hash } from '../../../lib/hash';
@@ -16,6 +17,15 @@ export default withSession(async (req, res) => {
         message: `Method ${method} not allowed`,
       });
     }
+
+    const schema = yup.object().shape({
+      firstName: yup.string().required(),
+      lastName: yup.string().required(),
+      email: yup.string().email().required(),
+      password: yup.string().min(6).required(),
+      sites: yup.array().of(yup.string()),
+    });
+    await schema.validate({ firstName, lastName, email, password, sites });
 
     const { db } = await connectToDatabase();
     const emailLower = email.toLowerCase();
@@ -55,13 +65,13 @@ export default withSession(async (req, res) => {
       user: _id,
     });
 
-    await sendVerificationEmail({ email, token });
+    await sendVerificationEmail({ email: emailLower, token });
 
     const user = {
       id: _id,
       isLoggedIn: true,
       isVerified,
-      email,
+      email: emailLower,
       access,
       role,
     };

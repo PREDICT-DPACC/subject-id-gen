@@ -17,16 +17,17 @@ export default async (req, res) => {
     const token = getToken();
 
     const { db } = await connectToDatabase();
+    const emailLower = email.toLowerCase();
     const userId = await db
       .collection('users')
-      .findOne({ email: email.toLowerCase() }, { _id: 1 });
+      .findOne({ email: emailLower }, { _id: 1 });
     const { _id } = userId;
     await db.collection('auth_tokens').insertOne({
       createdAt: new Date(),
       token,
       user: _id,
     });
-    await sendVerificationEmail({ email, token });
+    await sendVerificationEmail({ email: emailLower, token });
     res.status(200).json({ message: 'ok' });
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });

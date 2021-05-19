@@ -6,15 +6,17 @@ import useUser from '../lib/useUser';
 import styles from '../styles/Login.module.css';
 
 const LoginPage = () => {
-  const { mutateUser } = useUser({
+  const { user, mutateUser } = useUser({
     redirectTo: '/',
     redirectIfFound: true,
   });
 
   const [errorMsg, setErrorMsg] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setSubmitting(true);
 
     const body = {
       email: e.currentTarget.email.value,
@@ -29,9 +31,10 @@ const LoginPage = () => {
           body: JSON.stringify(body),
         })
       );
+      setSubmitting(false);
     } catch (error) {
-      console.error('An unexpected error happened:', error);
       setErrorMsg(error.data.message);
+      setSubmitting(false);
     }
   }
 
@@ -40,7 +43,14 @@ const LoginPage = () => {
       <p className={styles.description}>
         A tool to create or validate subject IDs for the DPACC project.
       </p>
-      <LoginForm onSubmit={handleSubmit} errorMessage={errorMsg} />
+      {(!user || user?.isLoggedIn) && <>Loading...</>}
+      {user && !user.isLoggedIn && (
+        <LoginForm
+          onSubmit={handleSubmit}
+          errorMessage={errorMsg}
+          disabled={submitting}
+        />
+      )}
     </Layout>
   );
 };
