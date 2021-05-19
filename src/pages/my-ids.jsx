@@ -71,8 +71,8 @@ const MyIdsPage = () => {
                 The site manager for each site you requested has been notified.
               </p>
               <p>
-                Once you have been added to the sites you requested, you will be
-                able to generate new IDs from the <Link href="/">Home</Link>{' '}
+                Once you have been added to the site(s) you requested, you will
+                be able to generate new IDs from the <Link href="/">Home</Link>{' '}
                 page.
               </p>
             </div>
@@ -119,7 +119,9 @@ const MyIdsPage = () => {
               {state.loading && <p>Loading...</p>}
               {!state.loading && state.ids && state.ids.length > 0 && (
                 <>
-                  <p>The following IDs are marked as used in the database:</p>
+                  <p>
+                    You have generated the following IDs, now marked as used:
+                  </p>
                   <div>
                     <IdTable ids={state.ids} mode="mine" />
                   </div>

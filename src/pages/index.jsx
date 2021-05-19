@@ -108,8 +108,8 @@ export default function Home() {
                 has been notified.)
               </p>
               <p>
-                Once you have been added to the sites you requested, you will be
-                able to generate new IDs here.
+                Once you have been added to the site(s) you requested, you will
+                be able to generate new IDs here.
               </p>
             </div>
           )}
