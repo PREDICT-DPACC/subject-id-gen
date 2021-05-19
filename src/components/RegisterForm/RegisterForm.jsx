@@ -21,6 +21,7 @@ const RegisterForm = ({
           name="firstName"
           autoComplete="given_name"
           disabled={disabled}
+          maxLength={255}
           className={
             validState.firstName
               ? formStyles.field
@@ -39,6 +40,7 @@ const RegisterForm = ({
           name="lastName"
           autoComplete="family_name"
           disabled={disabled}
+          maxLength={255}
           className={
             validState.lastName
               ? formStyles.field
@@ -57,6 +59,7 @@ const RegisterForm = ({
           name="email"
           autoComplete="email"
           disabled={disabled}
+          maxLength={255}
           className={
             validState.email
               ? formStyles.field

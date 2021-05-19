@@ -24,9 +24,9 @@ const RegisterPage = () => {
   });
 
   const schema = yup.object().shape({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    email: yup.string().email().required(),
+    firstName: yup.string().max(255).required(),
+    lastName: yup.string().max(255).required(),
+    email: yup.string().max(255).email().required(),
     sites: yup.array().of(yup.string()),
     password: yup.string().min(6).required(),
     passwordConfirmation: yup

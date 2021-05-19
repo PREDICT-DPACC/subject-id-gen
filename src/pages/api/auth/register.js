@@ -19,9 +19,9 @@ export default withSession(async (req, res) => {
     }
 
     const schema = yup.object().shape({
-      firstName: yup.string().required(),
-      lastName: yup.string().required(),
-      email: yup.string().email().required(),
+      firstName: yup.string().max(255).required(),
+      lastName: yup.string().max(255).required(),
+      email: yup.string().max(255).email().required(),
       password: yup.string().min(6).required(),
       sites: yup.array().of(yup.string()),
     });
