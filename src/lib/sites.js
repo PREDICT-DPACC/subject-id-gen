@@ -13,4 +13,52 @@ const OptionsForSiteList = ({ filteredSites }) =>
       </option>
     ));
 
-export { OptionsForSiteList };
+const getManagerDataForSiteReq = async ({ foundSites, email }) => {
+  const emailData = [
+    {
+      user: 'admin',
+      requestingUser: email,
+      sites: [],
+    },
+  ];
+  await Promise.all(
+    foundSites.map(async site => {
+      if (site.members.some(member => member.siteRole === 'manager')) {
+        await Promise.all(
+          site.members
+            .filter(member => member.siteRole === 'manager')
+            .map(async member => {
+              const managerIdx = emailData.findIndex(
+                datum => datum.user.toString() === member.id.toString()
+              );
+              if (managerIdx !== -1) {
+                emailData[managerIdx].sites.push({
+                  name: site.name,
+                  siteId: site.siteId,
+                });
+              } else {
+                emailData.push({
+                  user: member.id.toString(),
+                  requestingUser: email,
+                  sites: [
+                    {
+                      name: site.name,
+                      siteId: site.siteId,
+                    },
+                  ],
+                });
+              }
+            })
+        );
+      } else {
+        const adminIdx = emailData.findIndex(datum => datum.user === 'admin');
+        emailData[adminIdx].sites.push({
+          name: site.name,
+          siteId: site.siteId,
+        });
+      }
+    })
+  );
+  return emailData;
+};
+export { OptionsForSiteList, getManagerDataForSiteReq };

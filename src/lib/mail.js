@@ -88,4 +88,35 @@ const sendPasswordResetEmail = async ({ email, token }) => {
   });
 };
 
-export { sendVerificationEmail, sendPasswordResetEmail };
+const sendSiteRequest = async ({ requestingUser, sites, toEmail }) => {
+  let siteListHtml = '';
+  let siteListText = '';
+  sites.forEach(site => {
+    siteListHtml += `<a href="${baseUrl}/sites/${site.siteId}">${site.name}</a><br />`;
+    siteListText += `${site.name}: ${baseUrl}/sites/${site.siteId}`;
+  });
+  await transporter.sendMail({
+    from: emailFrom,
+    to: toEmail,
+    subject: 'Subject ID Generator: Access requested',
+    text: `Subject ID Generator
+    
+      A user with email ${requestingUser} has requested access to the following site(s): 
+      ${siteListText}
+      
+      You may use those URLs to grant access.`,
+    html: `
+    <div style="text-align: center; min-width: 400px;">
+      <h1>Subject ID Generator</h1>
+      <div style="border-radius: 5px; border: 1px solid #CCC; padding: 10px;">
+        <p>A user with email ${requestingUser} has requested access to the following site(s):</p>
+        <p>
+          ${siteListHtml}
+        </p>
+        <p>You may use those links to grant access.</p>
+      </div>
+    </div>`,
+  });
+};
+
+export { sendVerificationEmail, sendPasswordResetEmail, sendSiteRequest };

@@ -2,6 +2,8 @@ import { ObjectId } from 'mongodb';
 import withSession from '../../../lib/session';
 import { HttpError } from '../../../lib/errors';
 import { connectToDatabase } from '../../../lib/db';
+import { getManagerDataForSiteReq } from '../../../lib/sites';
+import { sendSiteRequest } from '../../../lib/mail';
 
 export default withSession(async (req, res) => {
   const { method, body } = await req;
@@ -36,7 +38,41 @@ export default withSession(async (req, res) => {
         { $set: { isVerified: true } }
       );
 
-    const { _id, email, access, role } = foundUser.value;
+    const { _id, email, access, requestedSites, role } = foundUser.value;
+
+    const foundSites = await db
+      .collection('sites')
+      .find({ siteId: { $in: requestedSites } })
+      .toArray();
+
+    const emailData = await getManagerDataForSiteReq({ email, foundSites });
+    const adminIdx = emailData.findIndex(datum => datum.user === 'admin');
+    if (emailData[adminIdx].sites.length === 0) {
+      emailData.splice(adminIdx, 1);
+    }
+    const finalEmailData = await Promise.all(
+      emailData.map(async datum => {
+        if (datum.user !== 'admin') {
+          const manager = await db
+            .collection('users')
+            .findOne({ _id: ObjectId(datum.user) }, { email: 1 });
+          return {
+            ...datum,
+            toEmail: manager.email,
+          };
+        }
+        return {
+          ...datum,
+          toEmail: process.env.ADMIN_EMAIL,
+        };
+      })
+    );
+    await Promise.all(
+      finalEmailData.map(async finalEmailDatum =>
+        sendSiteRequest(finalEmailDatum)
+      )
+    );
+
     const user = {
       id: _id,
       isLoggedIn: true,

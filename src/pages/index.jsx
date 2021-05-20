@@ -138,41 +138,49 @@ export default function Home() {
               {state.sentEmail && <p>Verification email sent.</p>}
             </div>
           )}
-          {user?.isVerified && (!user.access || user.access.length === 0) && (
-            <div className={styles.maintext}>
-              <p>You have not yet been added to any sites.</p>
-              <p>
-                The site manager for each site you requested has been notified.
-                (If there is not yet a site manager, the system administrator
-                has been notified.)
-              </p>
-              <p>
-                Once you have been added to the site(s) you requested, you will
-                be able to generate new IDs here.
-              </p>
-            </div>
-          )}
-          {user?.isVerified && user.access?.length > 0 && (
+          {user?.isVerified && (
             <>
-              <IdGenerator
-                access={user.access}
-                onSubmit={handleGenerate}
-                formDisabled={state.formDisabled}
-                sitesList={state.sitesList}
-              />
-              {state.ids && state.ids.length > 0 && (
+              {(!user.access || user.access.length === 0) && (
+                <div className={styles.maintext}>
+                  <p>You have not yet been added to any sites.</p>
+                  <p>
+                    The site manager for each site you requested has been
+                    notified. (If there is not yet a site manager, the system
+                    administrator has been notified.)
+                  </p>
+                  <p>
+                    Once you have been added to the site(s) you requested, you
+                    will be able to generate new IDs here.
+                  </p>
+                </div>
+              )}
+              {user.access?.length > 0 && (
                 <>
-                  <p>The following IDs have been marked as used:</p>
-                  {state.ids.map(id => (
-                    <div className={styles.id} key={id.id}>
-                      {id.id}
-                    </div>
-                  ))}
+                  <IdGenerator
+                    access={user.access}
+                    onSubmit={handleGenerate}
+                    formDisabled={state.formDisabled}
+                    sitesList={state.sitesList}
+                  />
+                  {state.ids && state.ids.length > 0 && (
+                    <>
+                      <p>The following IDs have been marked as used:</p>
+                      {state.ids.map(id => (
+                        <div className={styles.id} key={id.id}>
+                          {id.id}
+                        </div>
+                      ))}
+                    </>
+                  )}
+                  <p>
+                    To see previously generated IDs, please visit{' '}
+                    <Link href="/my-ids">My IDs</Link>.
+                  </p>
                 </>
               )}
               <p>
-                To see previously generated IDs, please visit{' '}
-                <Link href="/my-ids">My IDs</Link>.
+                <strong>Need access to more sites?</strong> Request them with{' '}
+                <Link href="/sites/request">this form</Link>.
               </p>
             </>
           )}
