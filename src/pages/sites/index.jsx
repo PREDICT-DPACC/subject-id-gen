@@ -29,7 +29,7 @@ export default function ManageSitesPage() {
   const fetchData = useCallback(
     async sites => {
       try {
-        const body = { sites };
+        const body = { sites, action: 'manage' };
         const res = await fetchJson(`/api/sites`, {
           method: 'POST',
           body: JSON.stringify(body),

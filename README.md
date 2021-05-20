@@ -53,6 +53,8 @@ yarn seed
 
 In your environment variables, `MONGODB_DB` must be set to the name of the empty database you created, and `MONGODB_URI` must be the connetion URI for your MongoDB instance.
 
+The initial sites will be pulled from `sites.json` in the project root. You may add sites using the web interface once the application is launched in the following steps.
+
 ## Available scripts
 
 To serve the app in development mode (hot-reloading) on port 4040, use the following command:

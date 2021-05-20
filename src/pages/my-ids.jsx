@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import useUser from '../lib/useUser';
 import Layout from '../components/Layout';
 import Navigation from '../components/Navigation';
 import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
-import sitesList from '../lib/sites';
 import IdTable from '../components/IdTable';
 
 const MyIdsPage = () => {
@@ -16,24 +15,32 @@ const MyIdsPage = () => {
     ids: [],
     errorMsg: '',
     noIdsForSite: false,
-    loading: false,
+    idsLoading: false,
+    sitesList: [],
+    sitesLoading: true,
   });
-  const setError = val => {
+  const setError = useCallback(val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
-  };
-  const setIds = val => {
+  }, []);
+  const setIds = useCallback(val => {
     setState(prevState => ({ ...prevState, ids: val }));
-  };
-  const setNoIdsForSite = val => {
+  }, []);
+  const setNoIdsForSite = useCallback(val => {
     setState(prevState => ({ ...prevState, noIdsForSite: val }));
-  };
-  const setLoading = val => {
-    setState(prevState => ({ ...prevState, loading: val }));
-  };
+  }, []);
+  const setIdsLoading = useCallback(val => {
+    setState(prevState => ({ ...prevState, idsLoading: val }));
+  }, []);
+  const setSitesList = useCallback(val => {
+    setState(prevState => ({ ...prevState, sitesList: val }));
+  }, []);
+  const setSitesLoading = useCallback(val => {
+    setState(prevState => ({ ...prevState, sitesLoading: val }));
+  }, []);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
+    setIdsLoading(true);
     try {
       const body = {
         action: 'list-mine',
@@ -48,23 +55,50 @@ const MyIdsPage = () => {
       if (res.ids.length === 0) {
         setNoIdsForSite(true);
       } else setNoIdsForSite(false);
-      setLoading(false);
+      setIdsLoading(false);
     } catch (error) {
       setError(error.message);
-      setLoading(false);
+      setIdsLoading(false);
     }
   };
 
+  const fetchSites = useCallback(async () => {
+    try {
+      const body = { action: 'names' };
+      const res = await fetchJson('/api/sites', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      setSitesList(res.sites);
+      setError('');
+      setSitesLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setSitesLoading(false);
+    }
+  }, [setError, setSitesList, setSitesLoading]);
+
+  useEffect(() => {
+    if (
+      state?.sitesList &&
+      state.sitesList.length === 0 &&
+      state.sitesLoading
+    ) {
+      fetchSites();
+    }
+  }, [user, state.sitesList, state.sitesLoading, fetchSites]);
+
   return (
     <Layout>
-      {(!user || !user?.isLoggedIn) && <>Loading...</>}
-      {user?.isLoggedIn && (
+      {(!user || !user?.isLoggedIn || state?.sitesLoading) && <>Loading...</>}
+      {user?.isLoggedIn && !state?.sitesLoading && (
         <>
           <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {state.errorMsg && state.errorMsg !== '' && (
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}
-          {user?.isVerified && (!user?.access || user?.access.length === 0) && (
+          {user?.isVerified && (!user.access || user.access.length === 0) && (
             <div>
               <p>You have not yet been added to any sites.</p>
               <p>
@@ -77,9 +111,9 @@ const MyIdsPage = () => {
               </p>
             </div>
           )}
-          <h4>My Generated IDs</h4>
-          {user?.isVerified && user?.access && user?.access.length > 0 && (
+          {user?.isVerified && user.access?.length > 0 && (
             <>
+              <h4>My Generated IDs</h4>
               <div>
                 <form onSubmit={handleSubmit}>
                   <div className={formStyles.inputgroup}>
@@ -88,10 +122,10 @@ const MyIdsPage = () => {
                         Site
                       </label>
                       <select name="site" className={formStyles.selectfield}>
-                        {sitesList
+                        {state.sitesList
                           .filter(site =>
                             user.access.some(
-                              accessSite => accessSite.siteId === site.id
+                              accessSite => accessSite.siteId === site.siteId
                             )
                           )
                           .sort((a, b) => {
@@ -102,8 +136,8 @@ const MyIdsPage = () => {
                             return 0;
                           })
                           .map(site => (
-                            <option value={site.id} key={site.id}>
-                              {site.name} ({site.id})
+                            <option value={site.siteId} key={site.siteId}>
+                              {site.name} ({site.siteId})
                             </option>
                           ))}
                       </select>
@@ -116,8 +150,8 @@ const MyIdsPage = () => {
                   </div>
                 </form>
               </div>
-              {state.loading && <p>Loading...</p>}
-              {!state.loading && state.ids && state.ids.length > 0 && (
+              {state.idsLoading && <p>Loading...</p>}
+              {!state.idsLoading && state.ids && state.ids.length > 0 && (
                 <>
                   <p>
                     You have generated the following IDs, now marked as used:
@@ -127,7 +161,7 @@ const MyIdsPage = () => {
                   </div>
                 </>
               )}
-              {!state.loading && state.noIdsForSite === true && (
+              {!state.idsLoading && state.noIdsForSite === true && (
                 <p>You have not generated any IDs for this site yet.</p>
               )}
             </>

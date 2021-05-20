@@ -1,7 +1,6 @@
 import formStyles from '../../styles/Form.module.css';
-import sitesList from '../../lib/sites';
 
-const IdGenerator = ({ access, onSubmit, formDisabled }) => (
+const IdGenerator = ({ access, onSubmit, formDisabled, sitesList }) => (
   <form onSubmit={onSubmit}>
     <div className={formStyles.inputgroup}>
       <div className={formStyles.fieldset}>
@@ -15,7 +14,7 @@ const IdGenerator = ({ access, onSubmit, formDisabled }) => (
         >
           {sitesList
             .filter(site =>
-              access.some(accessSite => accessSite.siteId === site.id)
+              access.some(accessSite => accessSite.siteId === site.siteId)
             )
             .sort((a, b) => {
               const nameA = a.name.toUpperCase();
@@ -25,8 +24,8 @@ const IdGenerator = ({ access, onSubmit, formDisabled }) => (
               return 0;
             })
             .map(site => (
-              <option value={site.id} key={site.id}>
-                {site.name} ({site.id})
+              <option value={site.siteId} key={site.siteId}>
+                {site.name} ({site.siteId})
               </option>
             ))}
         </select>

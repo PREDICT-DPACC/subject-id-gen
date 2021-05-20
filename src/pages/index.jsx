@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
@@ -9,27 +9,35 @@ import IdGenerator from '../components/IdGenerator';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const { user, mutateUser } = useUser({
+    redirectTo: '/login',
+  });
   const [state, setState] = useState({
     ids: [],
     formDisabled: false,
     sentEmail: false,
     errorMsg: '',
+    sitesList: [],
+    sitesLoading: true,
   });
-  const setDisabled = val => {
+  const setDisabled = useCallback(val => {
     setState(prevState => ({ ...prevState, formDisabled: val }));
-  };
-  const setSentEmail = val => {
+  }, []);
+  const setSentEmail = useCallback(val => {
     setState(prevState => ({ ...prevState, sentEmail: val }));
-  };
-  const setError = val => {
+  }, []);
+  const setError = useCallback(val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
-  };
-  const setIds = val => {
+  }, []);
+  const setIds = useCallback(val => {
     setState(prevState => ({ ...prevState, ids: val }));
-  };
-  const { user, mutateUser } = useUser({
-    redirectTo: '/login',
-  });
+  }, []);
+  const setSitesList = useCallback(val => {
+    setState(prevState => ({ ...prevState, sitesList: val }));
+  }, []);
+  const setSitesLoading = useCallback(val => {
+    setState(prevState => ({ ...prevState, sitesLoading: val }));
+  }, []);
 
   const handleResendVerification = async e => {
     e.preventDefault();
@@ -69,10 +77,41 @@ export default function Home() {
     }
   };
 
+  const fetchSites = useCallback(async () => {
+    try {
+      const body = { action: 'names' };
+      const res = await fetchJson('/api/sites', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      setSitesList(res.sites);
+      setError('');
+      setSitesLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setSitesLoading(false);
+    }
+  }, [setError, setSitesList, setSitesLoading]);
+
+  useEffect(() => {
+    if (
+      state?.sitesList &&
+      state.sitesList.length === 0 &&
+      state.sitesLoading
+    ) {
+      fetchSites();
+    }
+  }, [user, state.sitesList, state.sitesLoading, fetchSites]);
+
   return (
     <Layout>
-      {(!user || !user?.isLoggedIn) && <>Loading...</>}
-      {user?.isLoggedIn && (
+      {(!user ||
+        !user?.isLoggedIn ||
+        state?.sitesLoading ||
+        !state.sitesList ||
+        state.sitesList.length === 0) && <p>Loading...</p>}
+      {user?.isLoggedIn && !state?.sitesLoading && state.sitesList?.length > 0 && (
         <>
           <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {state.errorMsg && state.errorMsg !== '' && (
@@ -99,7 +138,7 @@ export default function Home() {
               {state.sentEmail && <p>Verification email sent.</p>}
             </div>
           )}
-          {user?.isVerified && (!user?.access || user?.access.length === 0) && (
+          {user?.isVerified && (!user.access || user.access.length === 0) && (
             <div className={styles.maintext}>
               <p>You have not yet been added to any sites.</p>
               <p>
@@ -113,12 +152,13 @@ export default function Home() {
               </p>
             </div>
           )}
-          {user?.isVerified && user?.access && user?.access.length > 0 && (
+          {user?.isVerified && user.access?.length > 0 && (
             <>
               <IdGenerator
                 access={user.access}
                 onSubmit={handleGenerate}
                 formDisabled={state.formDisabled}
+                sitesList={state.sitesList}
               />
               {state.ids && state.ids.length > 0 && (
                 <>

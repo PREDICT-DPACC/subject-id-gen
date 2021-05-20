@@ -5,7 +5,7 @@ import Navigation from '../../../components/Navigation';
 import useUser from '../../../lib/useUser';
 import fetchJson from '../../../lib/fetchJson';
 import formStyles from '../../../styles/Form.module.css';
-import sitesList from '../../../lib/sites';
+import { OptionsForSiteList } from '../../../lib/sites';
 
 const PromoteToManagerPage = () => {
   const { user, mutateUser } = useUser({
@@ -17,19 +17,24 @@ const PromoteToManagerPage = () => {
   const [state, setState] = useState({
     userData: {},
     errorMsg: '',
-    loading: true,
+    userLoading: true,
+    sitesList: [],
+    sitesLoading: true,
   });
-
-  const setData = useCallback(val => {
+  const setUserData = useCallback(val => {
     setState(prevState => ({ ...prevState, userData: val }));
   }, []);
-
   const setError = useCallback(val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
   }, []);
-
   const setLoading = useCallback(val => {
-    setState(prevState => ({ ...prevState, loading: val }));
+    setState(prevState => ({ ...prevState, userLoading: val }));
+  }, []);
+  const setSitesList = useCallback(val => {
+    setState(prevState => ({ ...prevState, sitesList: val }));
+  }, []);
+  const setSitesLoading = useCallback(val => {
+    setState(prevState => ({ ...prevState, sitesLoading: val }));
   }, []);
 
   const fetchUser = useCallback(async () => {
@@ -38,19 +43,43 @@ const PromoteToManagerPage = () => {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
-      setData(res);
+      setUserData(res);
       setLoading(false);
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
-  }, [id, setData, setError, setLoading]);
+  }, [id, setUserData, setError, setLoading]);
+
+  const fetchSites = useCallback(async () => {
+    try {
+      const body = { action: 'names' };
+      const res = await fetchJson('/api/sites', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      setSitesList(res.sites);
+      setError('');
+      setSitesLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setSitesLoading(false);
+    }
+  }, [setError, setSitesList, setSitesLoading]);
 
   useEffect(() => {
     if (user?.role === 'admin') {
       fetchUser();
     }
-  }, [user, fetchUser]);
+    if (
+      state?.sitesList &&
+      state.sitesList.length === 0 &&
+      state.sitesLoading
+    ) {
+      fetchSites();
+    }
+  }, [user, fetchUser, state.sitesList, state.sitesLoading, fetchSites]);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -82,11 +111,11 @@ const PromoteToManagerPage = () => {
           {user?.role !== 'admin' && (
             <div>You are not authorized to view this page.</div>
           )}
-          {user?.role === 'admin' && state.loading && <p>Loading...</p>}
-          {user?.role === 'admin' && !state.loading && (
+          {user?.role === 'admin' && state.userLoading && <p>Loading...</p>}
+          {user?.role === 'admin' && !state.userLoading && (
             <>
               {state.errorMsg !== '' && <div>{state.errorMsg}</div>}
-              {state.userData && (
+              {state.userData && state.sitesList && state.sitesList.length > 0 && (
                 <form onSubmit={handleSubmit}>
                   <div className={formStyles.fieldset}>
                     <label htmlFor="sites" className={formStyles.label}>
@@ -98,19 +127,20 @@ const PromoteToManagerPage = () => {
                     </label>
                     <p>CTRL or CMD + click to select multiple.</p>
                     <select name="sites" multiple className={formStyles.field}>
-                      {sitesList
-                        .sort((a, b) => {
-                          const nameA = a.name.toUpperCase();
-                          const nameB = b.name.toUpperCase();
-                          if (nameA < nameB) return -1;
-                          if (nameA > nameB) return 1;
-                          return 0;
-                        })
-                        .map(site => (
-                          <option value={site.id} key={site.id}>
-                            {site.name}
-                          </option>
-                        ))}
+                      <optgroup label="PRESCIENT">
+                        <OptionsForSiteList
+                          filteredSites={state.sitesList.filter(
+                            site => site.network === 'PRESCIENT'
+                          )}
+                        />
+                      </optgroup>
+                      <optgroup label="ProNET">
+                        <OptionsForSiteList
+                          filteredSites={state.sitesList.filter(
+                            site => site.network === 'ProNET'
+                          )}
+                        />
+                      </optgroup>
                     </select>
                   </div>
                   <button type="submit" className={formStyles.button}>

@@ -3,7 +3,7 @@
 
 const dotenv = require('dotenv');
 const { MongoClient } = require('mongodb');
-const sites = require('./sites.json');
+const sites = require('../sites.json');
 const generateIds = require('./genIds.js');
 
 const seed = async () => {
@@ -26,6 +26,7 @@ const seed = async () => {
     const sitesWithFields = sites.map(site => ({
       siteId: site.id,
       name: site.name,
+      network: site.network,
       idseq: 1,
       members: [],
     }));

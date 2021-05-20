@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import styles from './RegisterForm.module.css';
 import formStyles from '../../styles/Form.module.css';
-import sitesList from '../../lib/sites';
+import { OptionsForSiteList } from '../../lib/sites';
 
 const RegisterForm = ({
+  sitesList,
   errorMessage,
   onSubmit,
   onBlur,
@@ -109,25 +110,27 @@ const RegisterForm = ({
         <label htmlFor="sites" className={formStyles.label}>
           Site(s)
         </label>
+        <p>CTRL or CMD + click to select multiple.</p>
         <select
           name="sites"
           multiple
           disabled={disabled}
           className={formStyles.field}
         >
-          {sitesList
-            .sort((a, b) => {
-              const nameA = a.name.toUpperCase();
-              const nameB = b.name.toUpperCase();
-              if (nameA < nameB) return -1;
-              if (nameA > nameB) return 1;
-              return 0;
-            })
-            .map(site => (
-              <option value={site.id} key={site.id}>
-                {site.name}
-              </option>
-            ))}
+          <optgroup label="PRESCIENT">
+            <OptionsForSiteList
+              filteredSites={sitesList.filter(
+                site => site.network === 'PRESCIENT'
+              )}
+            />
+          </optgroup>
+          <optgroup label="ProNET">
+            <OptionsForSiteList
+              filteredSites={sitesList.filter(
+                site => site.network === 'ProNET'
+              )}
+            />
+          </optgroup>
         </select>
       </div>
 
