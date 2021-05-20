@@ -1,44 +1,42 @@
 import { createTransport } from 'nodemailer';
 
-const {
-  LOCAL_SMTP_SERVER,
-  EMAIL_SERVER_USER,
-  EMAIL_SERVER_PASSWORD,
-  EMAIL_SERVER_HOST,
-  EMAIL_SERVER_PORT,
-  EMAIL_FROM,
-  BASE_URL,
-} = process.env;
+const localSmtp = process.env.LOCAL_SMTP_SERVER;
+const emailUser = process.env.EMAIL_SERVER_USER;
+const emailPass = process.env.EMAIL_SERVER_PASSWORD;
+const emailHost = process.env.EMAIL_SERVER_HOST;
+const emailPort = process.env.EMAIL_SERVER_PORT;
+const emailFrom = process.env.EMAIL_FROM;
+const baseUrl = process.env.BASE_URL;
 
 const transporter =
-  LOCAL_SMTP_SERVER === 'true'
+  localSmtp === 'true'
     ? createTransport({
         host: 'localhost',
-        port: EMAIL_SERVER_PORT,
+        port: emailPort,
         secure: false,
         tls: {
           rejectUnauthorized: false,
         },
       })
     : createTransport({
-        host: EMAIL_SERVER_HOST,
-        port: EMAIL_SERVER_PORT,
-        secure: EMAIL_SERVER_PORT === 465,
+        host: emailHost,
+        port: emailPort,
+        secure: emailPort === 465,
         auth: {
-          user: EMAIL_SERVER_USER, // generated ethereal user
-          pass: EMAIL_SERVER_PASSWORD, // generated ethereal password
+          user: emailUser, // generated ethereal user
+          pass: emailPass, // generated ethereal password
         },
       });
 
 const sendVerificationEmail = async ({ email, token }) => {
   await transporter.sendMail({
-    from: EMAIL_FROM,
+    from: emailFrom,
     to: email,
     subject: 'Subject ID Generator: Email verification',
     text: `Subject ID Generator
     
     Go to the following link to verify your email:
-    ${BASE_URL}/verify-email/${token}`,
+    ${baseUrl}/verify-email/${token}`,
     html: `
       <div style="text-align: center; width: 350px;">
         <h1>Subject ID Generator</h1>
@@ -47,7 +45,7 @@ const sendVerificationEmail = async ({ email, token }) => {
           Thank you for registering for the Subject ID Generator.
         </p>
         <p>
-          <a href="${BASE_URL}/verify-email/${token}">
+          <a href="${baseUrl}/verify-email/${token}">
             Click here to verify your email.
           </a>
         </p>
@@ -62,13 +60,13 @@ const sendVerificationEmail = async ({ email, token }) => {
 
 const sendPasswordResetEmail = async ({ email, token }) => {
   await transporter.sendMail({
-    from: EMAIL_FROM,
+    from: emailFrom,
     to: email,
     subject: 'Subject ID Generator: Reset password',
     text: `Subject ID Generator
     
     Go to the following link to reset your password:
-    ${BASE_URL}/reset-password/${token}`,
+    ${baseUrl}/reset-password/${token}`,
     html: `
       <div style="text-align: center; width: 350px;">
         <h1>Subject ID Generator</h1>
@@ -77,7 +75,7 @@ const sendPasswordResetEmail = async ({ email, token }) => {
           Password reset:
         </p>
         <p>
-          <a href="${BASE_URL}/reset-password/${token}">
+          <a href="${baseUrl}/reset-password/${token}">
             Click here to reset your password.
           </a>
         </p>

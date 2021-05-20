@@ -1,14 +1,15 @@
 import { MongoClient } from 'mongodb';
 
-const { MONGODB_URI, MONGODB_DB } = process.env;
+const mongoUri = process.env.MONGODB_URI;
+const mongoDatabase = process.env.MONGODB_DB;
 
-if (!MONGODB_URI) {
+if (!mongoUri) {
   throw new Error(
     'Please define the MONGODB_URI environment variable inside .env.local'
   );
 }
 
-if (!MONGODB_DB) {
+if (!mongoDatabase) {
   throw new Error(
     'Please define the MONGODB_DB environment variable inside .env.local'
   );
@@ -38,10 +39,10 @@ export async function connectToDatabase() {
       useUnifiedTopology: true,
     };
 
-    cached.promise = MongoClient.connect(MONGODB_URI, opts)
+    cached.promise = MongoClient.connect(mongoUri, opts)
       .then(client => {
         conn.client = client;
-        return client.db(MONGODB_DB);
+        return client.db(mongoDatabase);
       })
       .then(db => {
         db.collection('users').createIndex({ email: 1 }, { unique: true });
