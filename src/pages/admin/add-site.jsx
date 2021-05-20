@@ -86,6 +86,7 @@ const AdminAddSitePage = () => {
                     <label htmlFor="siteId" className={formStyles.label}>
                       Site ID
                     </label>
+                    <small>Must be two letters</small>
                     <input
                       type="text"
                       maxLength={2}

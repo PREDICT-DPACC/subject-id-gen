@@ -35,7 +35,11 @@ export default withSession(async (req, res) => {
         const { role } = foundUser;
         if (role === 'admin') {
           const schema = yup.object().shape({
-            siteId: yup.string().max(2).required(),
+            siteId: yup
+              .string()
+              .max(2)
+              .matches(/[A-Z][A-Z]/, 'Site ID must be two letters')
+              .required(),
             name: yup.string().max(255).required(),
             network: yup.string().required(),
           });
