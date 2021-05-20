@@ -164,7 +164,7 @@ export default function Home() {
                   />
                   {state.ids && state.ids.length > 0 && (
                     <>
-                      <p>The following IDs have been marked as used:</p>
+                      <p>The following IDs have now been marked as used:</p>
                       {state.ids.map(id => (
                         <div className={styles.id} key={id.id}>
                           {id.id}
