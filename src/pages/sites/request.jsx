@@ -73,7 +73,7 @@ const PromoteToManagerPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      router.push('/');
+      router.push('/?res=success', '/');
       setSubmitting(false);
     } catch (error) {
       setError(error.message);

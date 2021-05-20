@@ -1,4 +1,5 @@
 import { useCallback, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import useUser from '../lib/useUser';
@@ -9,6 +10,8 @@ import IdGenerator from '../components/IdGenerator';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const router = useRouter();
+  const params = router.query;
   const { user, mutateUser } = useUser({
     redirectTo: '/login',
   });
@@ -19,6 +22,7 @@ export default function Home() {
     errorMsg: '',
     sitesList: [],
     sitesLoading: true,
+    successMsg: params.res === 'success' ? 'Success!' : '',
   });
   const setDisabled = useCallback(val => {
     setState(prevState => ({ ...prevState, formDisabled: val }));
@@ -116,6 +120,9 @@ export default function Home() {
           <Navigation user={user} mutateUser={mutateUser} setError={setError} />
           {state.errorMsg && state.errorMsg !== '' && (
             <p className={formStyles.error}>{state.errorMsg}</p>
+          )}
+          {state.successMsg && state.successMsg !== '' && (
+            <p className={formStyles.success}>{state.successMsg}</p>
           )}
           {!user?.isVerified && (
             <div className={styles.maintext}>
