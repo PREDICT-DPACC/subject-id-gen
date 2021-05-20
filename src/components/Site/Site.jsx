@@ -35,7 +35,7 @@ const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
                         defaultValue={member.siteRole}
                         disabled={user.id === member.id}
                         data-id={member.id}
-                        className={formStyles.selectfield}
+                        className={`${formStyles.selectfield} ${formStyles.nomargin}`}
                       >
                         <option value="manager">Manager</option>
                         <option value="member">Member</option>
