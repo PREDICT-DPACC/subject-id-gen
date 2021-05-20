@@ -118,13 +118,15 @@ const PromoteToManagerPage = () => {
               {state.userData && state.sitesList && state.sitesList.length > 0 && (
                 <form onSubmit={handleSubmit}>
                   <div className={formStyles.fieldset}>
-                    <label htmlFor="sites" className={formStyles.label}>
-                      Make{' '}
-                      <strong>
-                        {state.userData.firstName} {state.userData.lastName}
-                      </strong>{' '}
-                      manager of which site(s)?
-                    </label>
+                    <p>
+                      <label htmlFor="sites" className={formStyles.label}>
+                        Make{' '}
+                        <strong>
+                          {state.userData.firstName} {state.userData.lastName}
+                        </strong>{' '}
+                        manager of which site(s)?
+                      </label>
+                    </p>
                     <p>CTRL or CMD + click to select multiple.</p>
                     <select name="sites" multiple className={formStyles.field}>
                       <optgroup label="PRESCIENT">

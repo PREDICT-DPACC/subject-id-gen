@@ -84,7 +84,7 @@ const ResetPasswordPage = () => {
               spam or junk mail, for your reset password link.
             </p>
           )}
-          <div className={formStyles.button}>
+          <div className={formStyles.formlink}>
             <Link href="/">Go back</Link>
           </div>
         </>

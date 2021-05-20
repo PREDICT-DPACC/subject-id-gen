@@ -117,7 +117,7 @@ const AdminAddSitePage = () => {
                     >
                       Submit
                     </button>
-                    <div className={formStyles.button}>
+                    <div className={formStyles.formlink}>
                       <Link href="/admin">Go back</Link>
                     </div>
                   </div>

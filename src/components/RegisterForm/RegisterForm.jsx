@@ -139,7 +139,7 @@ const RegisterForm = ({
         <button type="submit" disabled={disabled} className={formStyles.button}>
           Register
         </button>
-        <div className={formStyles.button}>
+        <div className={formStyles.formlink}>
           <Link href="/">Go back</Link>
         </div>
       </div>

@@ -42,7 +42,7 @@ const LoginForm = ({ errorMessage, onSubmit, disabled }) => (
         <button type="submit" className={formStyles.button} disabled={disabled}>
           Login
         </button>
-        <div className={formStyles.button}>
+        <div className={formStyles.formlink}>
           <Link href="/register">Register</Link>
         </div>
       </div>

@@ -1,13 +1,8 @@
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 import styles from '../../styles/Admin.module.scss';
 import tableStyles from '../../styles/Table.module.scss';
 
 const SiteTable = ({ sites, mode }) => {
-  const router = useRouter();
-  const handleManage = e => {
-    e.preventDefault();
-    router.push(`/sites/${e.target.name}`);
-  };
   const RowsForSite = ({ filteredSites }) =>
     filteredSites
       .sort((a, b) => {
@@ -42,9 +37,7 @@ const SiteTable = ({ sites, mode }) => {
             </td>
           )}
           <td className={styles.actions}>
-            <button type="button" name={site.siteId} onClick={handleManage}>
-              Manage
-            </button>
+            <Link href={`/sites/${site.siteId}`}>Manage</Link>
           </td>
         </tr>
       ));

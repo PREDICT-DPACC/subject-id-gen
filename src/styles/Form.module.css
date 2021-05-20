@@ -47,6 +47,10 @@
   font-size: 1.01rem;
 }
 
+.formlink {
+  padding: 8px;
+}
+
 .button:active, .horizbutton:active {
   background-color: #ccc;
 }
