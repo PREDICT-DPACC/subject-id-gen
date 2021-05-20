@@ -1,12 +1,13 @@
 import styles from './Site.module.scss';
 import tableStyles from '../../styles/Table.module.scss';
+import formStyles from '../../styles/Form.module.css';
 
 const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
   <>
     <h2>Manage site: {site.name}</h2>
     <div className={styles.site}>
-      <div>
-        <h3>Members</h3>
+      <h3>Members</h3>
+      <div className={styles.members}>
         <table className={`${tableStyles.table} ${styles.sitetable}`}>
           <thead>
             <tr>
@@ -34,6 +35,7 @@ const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
                         defaultValue={member.siteRole}
                         disabled={user.id === member.id}
                         data-id={member.id}
+                        className={formStyles.selectfield}
                       >
                         <option value="manager">Manager</option>
                         <option value="member">Member</option>
@@ -45,6 +47,7 @@ const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
                         disabled={user.id === member.id}
                         data-id={member.id}
                         onClick={removeUser}
+                        className={formStyles.button}
                       >
                         Remove
                       </button>
@@ -53,19 +56,40 @@ const Site = ({ user, site, addUser, handleSelect, removeUser, showIds }) => (
                 ))}
           </tbody>
         </table>
-      </div>
-      <div>
+        <div>
+          <p>
+            Site <strong>Members</strong> can generate IDs for a site.
+          </p>
+          <p>
+            Site <strong>Managers</strong> can generate IDs for a site,
+            add/remove users for a site, and view all generated IDs for a site.
+          </p>
+        </div>
         <h4>Add Member</h4>
         <p>Enter a registered user's email here.</p>
         <form onSubmit={addUser}>
-          <input type="email" required name="email" />
-          <button type="submit">Submit</button>
+          <div className={formStyles.inputgroup}>
+            <div className={formStyles.fieldset}>
+              <input
+                type="email"
+                required
+                name="email"
+                maxLength={255}
+                className={formStyles.field}
+              />
+            </div>
+            <div className={formStyles.buttongroup}>
+              <button type="submit" className={formStyles.horizbutton}>
+                Submit
+              </button>
+            </div>
+          </div>
         </form>
       </div>
       <div>
         <h3>Used IDs</h3>
         <p>List used IDs for this site.</p>
-        <button type="button" onClick={showIds}>
+        <button type="button" onClick={showIds} className={formStyles.button}>
           Show IDs
         </button>
       </div>
