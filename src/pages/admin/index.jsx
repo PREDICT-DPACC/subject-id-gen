@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import Layout from '../../components/Layout';
 import useUser from '../../lib/useUser';
 import fetchJson from '../../lib/fetchJson';
@@ -79,7 +80,14 @@ export default function AdminUsersPage() {
                 <AdminUserTable adminUser={user} users={state.data.users} />
               )}
               {state.data.sites && (
-                <SiteTable sites={state.data.sites} mode="admin" />
+                <>
+                  <SiteTable sites={state.data.sites} mode="admin" />
+                  <div>
+                    <p>
+                      <Link href="/admin/add-site">+ Add a site</Link>
+                    </p>
+                  </div>
+                </>
               )}
             </>
           )}
