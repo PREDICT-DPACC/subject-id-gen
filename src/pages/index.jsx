@@ -132,7 +132,9 @@ export default function Home() {
                 <>
                   <p>
                     Email not yet verified. Please check your email, including
-                    Spam or Junk folders, or:
+                    Spam or Junk folders, and wait up to 15 minutes for a
+                    verification to arrive. If you believe that it was never
+                    sent, you may click the button below:
                   </p>
                   <button
                     onClick={handleResendVerification}
@@ -144,7 +146,12 @@ export default function Home() {
                   </button>
                 </>
               )}
-              {state.sentEmail && <p>Verification email sent.</p>}
+              {state.sentEmail && (
+                <p>
+                  Verification email sent. Please wait up to 15 minutes for its
+                  arrival.
+                </p>
+              )}
             </div>
           )}
           {user?.isVerified && (
