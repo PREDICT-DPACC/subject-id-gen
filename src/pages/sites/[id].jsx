@@ -196,9 +196,7 @@ export default function SitePage() {
                             <IdTableCsvLink ids={state.idList} mode="manage" />
                             ):
                           </p>
-                          <div>
-                            <IdTable ids={state.idList} mode="manage" />
-                          </div>
+                          <IdTable ids={state.idList} mode="manage" />
                         </>
                       )}
                     {!state.idsLoading && state.noIdsForSite === true && (

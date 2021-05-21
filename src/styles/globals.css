@@ -19,3 +19,8 @@ a:visited {
 a:active {
   color: darkblue;
 }
+
+p {
+  padding-left: 1em;
+  padding-right: 1em;
+}

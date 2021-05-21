@@ -43,30 +43,34 @@ const SiteTable = ({ sites, mode }) => {
       ));
   return (
     <table className={`${tableStyles.table} ${styles.admintable}`}>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Used IDs</th>
-        <th>Members</th>
-        {mode === 'admin' && <th style={{ width: '15%' }}>Manager(s)</th>}
-        <th>Actions</th>
-      </tr>
-      <tr>
-        <td colSpan={6}>
-          <strong>PRESCIENT</strong>
-        </td>
-      </tr>
-      <RowsForSite
-        filteredSites={sites.filter(site => site.network === 'PRESCIENT')}
-      />
-      <tr>
-        <td colSpan={6}>
-          <strong>ProNET</strong>
-        </td>
-      </tr>
-      <RowsForSite
-        filteredSites={sites.filter(site => site.network === 'ProNET')}
-      />
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Used IDs</th>
+          <th>Members</th>
+          {mode === 'admin' && <th style={{ width: '15%' }}>Manager(s)</th>}
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colSpan={6}>
+            <strong>PRESCIENT</strong>
+          </td>
+        </tr>
+        <RowsForSite
+          filteredSites={sites.filter(site => site.network === 'PRESCIENT')}
+        />
+        <tr>
+          <td colSpan={6}>
+            <strong>ProNET</strong>
+          </td>
+        </tr>
+        <RowsForSite
+          filteredSites={sites.filter(site => site.network === 'ProNET')}
+        />
+      </tbody>
     </table>
   );
 };
