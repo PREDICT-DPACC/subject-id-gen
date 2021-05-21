@@ -32,6 +32,7 @@ const LoginPage = () => {
           body: JSON.stringify(body),
         })
       );
+      setErrorMsg('');
       setSubmitting(false);
     } catch (error) {
       setErrorMsg(error.data.message);

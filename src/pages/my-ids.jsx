@@ -56,6 +56,7 @@ const MyIdsPage = () => {
       if (res.ids.length === 0) {
         setNoIdsForSite(true);
       } else setNoIdsForSite(false);
+      setError('');
       setIdsLoading(false);
     } catch (error) {
       setError(error.message);

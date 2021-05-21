@@ -28,8 +28,9 @@ const ResetPasswordPage = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      setSubmitting(false);
       setSentEmail(true);
+      setErrorMsg('');
+      setSubmitting(false);
     } catch (error) {
       setErrorMsg(error.data.message);
       setSubmitting(false);

@@ -74,6 +74,7 @@ const PromoteToManagerPage = () => {
         body: JSON.stringify(body),
       });
       router.push('/?res=success', '/');
+      setError('');
       setSubmitting(false);
     } catch (error) {
       setError(error.message);

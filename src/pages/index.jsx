@@ -53,6 +53,7 @@ export default function Home() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
+      setError('');
       setSentEmail(true);
     } catch (error) {
       setError(error.message);
@@ -75,6 +76,7 @@ export default function Home() {
       });
       setIds(res.ids);
       setDisabled(false);
+      setError('');
     } catch (error) {
       setDisabled(false);
       setError(error.message);

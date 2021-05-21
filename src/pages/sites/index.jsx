@@ -36,6 +36,7 @@ export default function ManageSitesPage() {
           headers: { 'Content-Type': 'application/json' },
         });
         setData(res);
+        setError('');
         setTableLoading(false);
       } catch (error) {
         setError(error.message);

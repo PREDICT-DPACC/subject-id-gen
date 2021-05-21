@@ -92,6 +92,7 @@ export default function SitePage() {
     const body = { newRole, userId, action: 'change-role' };
     try {
       await postToApi({ body: JSON.stringify(body) });
+      setError('');
     } catch (error) {
       setError(error.message);
       setMembersLoading(false);
@@ -105,6 +106,7 @@ export default function SitePage() {
     const body = { userId, action: 'remove-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
+      setError('');
     } catch (error) {
       setError(error.message);
       setMembersLoading(false);
@@ -118,6 +120,7 @@ export default function SitePage() {
     const body = { userEmail, action: 'add-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
+      setError('');
     } catch (error) {
       setError(error.message);
       setMembersLoading(false);
@@ -138,6 +141,7 @@ export default function SitePage() {
       if (res.ids.length === 0) {
         setNoIdsForSite(true);
       } else setNoIdsForSite(false);
+      setError('');
       setIdsLoading(false);
       e.target.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {

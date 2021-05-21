@@ -44,6 +44,7 @@ const PromoteToManagerPage = () => {
         headers: { 'Content-Type': 'application/json' },
       });
       setUserData(res);
+      setError('');
       setLoading(false);
     } catch (error) {
       setError(error.message);
