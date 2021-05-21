@@ -44,9 +44,14 @@ export default withSession(async (req, res) => {
       const emailLower = email.toLowerCase();
       const foundUser = await db
         .collection('users')
-        .findOne({ _id: ObjectId(id) }, { access: 1 });
+        .findOne({ _id: ObjectId(id) }, { access: 1, role: 1 });
       const { access } = foundUser;
-      if (!access.some(site => site.siteId === siteId)) {
+      if (
+        !(
+          foundUser.role === 'admin' ||
+          access.some(site => site.siteId === siteId)
+        )
+      ) {
         throw new HttpError({
           statusCode: 403,
           message: 'Unauthorized',
