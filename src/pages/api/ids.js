@@ -23,7 +23,7 @@ export default withSession(async (req, res) => {
       const { db } = await connectToDatabase();
       const foundId = await db
         .collection('subjectids')
-        .findOne({ id }, { id: 1 });
+        .findOne({ id, used: true }, { id: 1 });
       if (foundId === null) {
         throw new HttpError({
           statusCode: 404,
