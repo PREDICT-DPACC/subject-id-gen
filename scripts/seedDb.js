@@ -9,13 +9,14 @@ const generateIds = require('./genIds.js');
 const seed = async () => {
   try {
     dotenv.config({ path: '.env.local' });
-    const { MONGODB_URI, MONGODB_DB } = process.env;
+    const mongoUri = process.env.MONGODB_URI;
+    const mongoDatabase = process.env.MONGODB_DB;
     const opts = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };
-    const client = await MongoClient.connect(MONGODB_URI, opts);
-    const db = client.db(MONGODB_DB);
+    const client = await MongoClient.connect(mongoUri, opts);
+    const db = client.db(mongoDatabase);
 
     const foundSite = await db.collection('sites').findOne();
 
