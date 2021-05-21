@@ -23,9 +23,13 @@ export default function SitePage() {
     idsLoading: false,
     idList: [],
     noIdsForSite: false,
+    successMsg: '',
   });
   const setError = useCallback(val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
+  }, []);
+  const setSuccessMsg = useCallback(val => {
+    setState(prevState => ({ ...prevState, successMsg: val }));
   }, []);
   const setData = useCallback(val => {
     setState(prevState => ({ ...prevState, data: val }));
@@ -92,8 +96,10 @@ export default function SitePage() {
     const body = { newRole, userId, action: 'change-role' };
     try {
       await postToApi({ body: JSON.stringify(body) });
+      setSuccessMsg("Successfully changed user's role");
       setError('');
     } catch (error) {
+      setSuccessMsg('');
       setError(error.message);
       setMembersLoading(false);
     }
@@ -101,15 +107,20 @@ export default function SitePage() {
 
   const removeUser = async e => {
     e.preventDefault();
-    setMembersLoading(true);
-    const userId = e.target.getAttribute('data-id');
-    const body = { userId, action: 'remove-user' };
-    try {
-      await postToApi({ body: JSON.stringify(body) });
-      setError('');
-    } catch (error) {
-      setError(error.message);
-      setMembersLoading(false);
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Are you sure you want to remove this user?')) {
+      setMembersLoading(true);
+      const userId = e.target.getAttribute('data-id');
+      const body = { userId, action: 'remove-user' };
+      try {
+        await postToApi({ body: JSON.stringify(body) });
+        setSuccessMsg('Successfully removed user');
+        setError('');
+      } catch (error) {
+        setSuccessMsg('');
+        setError(error.message);
+        setMembersLoading(false);
+      }
     }
   };
 
@@ -120,8 +131,10 @@ export default function SitePage() {
     const body = { userEmail, action: 'add-user' };
     try {
       await postToApi({ body: JSON.stringify(body) });
+      setSuccessMsg('Successfully added user');
       setError('');
     } catch (error) {
+      setSuccessMsg('');
       setError(error.message);
       setMembersLoading(false);
     }
@@ -177,6 +190,9 @@ export default function SitePage() {
                 {(state.membersLoading || !state.data) && <p>Loading...</p>}
                 {!state.membersLoading && state.data && (
                   <>
+                    {state.successMsg && state.successMsg !== '' && (
+                      <p className={formStyles.success}>{state.successMsg}</p>
+                    )}
                     <Site
                       site={state.data}
                       user={user}
