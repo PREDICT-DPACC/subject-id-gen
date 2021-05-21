@@ -18,6 +18,10 @@
   border-radius: 4px;
 }
 
+.uppercasefield {
+  text-transform: uppercase;
+}
+
 .invalid {
   border: 1px solid red !important;
 }

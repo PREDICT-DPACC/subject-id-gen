@@ -5,14 +5,34 @@ import { HttpError } from '../../lib/errors';
 import { connectToDatabase } from '../../lib/db';
 
 export default withSession(async (req, res) => {
-  const { method, session, body } = await req;
+  const { method, session, body, query } = await req;
   try {
-    if (method !== 'POST') {
-      throw new HttpError({
-        statusCode: 405,
-        message: `Method ${method} not allowed`,
+    if (method === 'GET') {
+      const { id } = query;
+      const schema = yup.object().shape({
+        id: yup
+          .string()
+          .length(7)
+          .matches(
+            /[A-Z][A-Z][0-9][0-9][0-9][0-9][0-9]/,
+            'ID must be two letters followed by 5 numbers'
+          )
+          .required(),
       });
-    } else {
+      await schema.validate({ id });
+      const { db } = await connectToDatabase();
+      const foundId = await db
+        .collection('subjectids')
+        .findOne({ id }, { id: 1 });
+      if (foundId === null) {
+        throw new HttpError({
+          statusCode: 404,
+          message: 'This ID has NOT been used.',
+        });
+      } else {
+        res.status(200).json({ message: 'This ID has been used.' });
+      }
+    } else if (method === 'POST') {
       const { id, email } = session.get('user');
       const { siteId, action, quantity } = body;
       const { db } = await connectToDatabase();
@@ -136,6 +156,11 @@ export default withSession(async (req, res) => {
           message: `No action parameter or action ${action} not supported`,
         });
       }
+    } else {
+      throw new HttpError({
+        statusCode: 405,
+        message: `Method ${method} not allowed`,
+      });
     }
   } catch (error) {
     res.status(error.statusCode || 500).json({ message: error.message });

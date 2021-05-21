@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Layout from '../components/Layout';
-import LoginForm from '../components/LoginForm/LoginForm';
+import LoginForm from '../components/LoginForm';
 import fetchJson from '../lib/fetchJson';
 import useUser from '../lib/useUser';
 import styles from '../styles/Login.module.css';
+import Navigation from '../components/Navigation';
 
 const LoginPage = () => {
   const { user, mutateUser } = useUser({
@@ -45,11 +46,18 @@ const LoginPage = () => {
       </p>
       {(!user || user?.isLoggedIn) && <>Loading...</>}
       {user && !user.isLoggedIn && (
-        <LoginForm
-          onSubmit={handleSubmit}
-          errorMessage={errorMsg}
-          disabled={submitting}
-        />
+        <>
+          <Navigation
+            user={user}
+            mutateUser={mutateUser}
+            setError={setErrorMsg}
+          />
+          <LoginForm
+            onSubmit={handleSubmit}
+            errorMessage={errorMsg}
+            disabled={submitting}
+          />
+        </>
       )}
     </Layout>
   );

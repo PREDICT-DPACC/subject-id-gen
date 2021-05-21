@@ -92,7 +92,7 @@ const AdminAddSitePage = () => {
                       maxLength={2}
                       required
                       disabled={state.submitting}
-                      className={formStyles.field}
+                      className={`${formStyles.field} ${formStyles.uppercasefield}`}
                       name="siteId"
                     />
                   </div>

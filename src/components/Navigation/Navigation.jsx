@@ -29,22 +29,27 @@ const Navigation = ({ user, mutateUser, setError }) => {
   };
   return (
     <div className={styles.navbar}>
-      <NavLink path="/" title="Home" />
-      {user?.isVerified && <NavLink path="/my-ids" title="My IDs" />}
-      {user?.isVerified && user?.role === 'admin' && (
-        <NavLink path="/admin" title="Administration" />
+      <NavLink path={user?.isLoggedIn ? '/' : '/login'} title="Home" />
+      <NavLink path="/check-id" title="Check ID" />
+      {user?.isLoggedIn && (
+        <>
+          {user?.isVerified && <NavLink path="/my-ids" title="My IDs" />}
+          {user?.isVerified && user?.role === 'admin' && (
+            <NavLink path="/admin" title="Administration" />
+          )}
+          {user?.isVerified &&
+            user?.access.some(
+              siteAccess => siteAccess.siteRole === 'manager'
+            ) && <NavLink path="/sites" title="Manage Site(s)" />}
+          <a
+            href="/api/auth/logout"
+            className={styles.navlink}
+            onClick={handleLogout}
+          >
+            Logout
+          </a>
+        </>
       )}
-      {user?.isVerified &&
-        user?.access.some(siteAccess => siteAccess.siteRole === 'manager') && (
-          <NavLink path="/sites" title="Manage Site(s)" />
-        )}
-      <a
-        href="/api/auth/logout"
-        className={styles.navlink}
-        onClick={handleLogout}
-      >
-        Logout
-      </a>
     </div>
   );
 };
