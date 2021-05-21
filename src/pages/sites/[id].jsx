@@ -160,13 +160,19 @@ export default function SitePage() {
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}
           {(!user?.isVerified ||
-            !user?.access.some(
-              siteAccess => siteAccess.siteRole === 'manager'
+            !(
+              user?.role === 'admin' ||
+              user?.access.some(
+                siteAccess =>
+                  siteAccess.siteRole === 'manager' && siteAccess.siteId === id
+              )
             )) && <div>You are not authorized to view this page.</div>}
           {user?.isVerified &&
-            user?.access.some(
-              siteAccess => siteAccess.siteRole === 'manager'
-            ) && (
+            (user?.role === 'admin' ||
+              user?.access.some(
+                siteAccess =>
+                  siteAccess.siteRole === 'manager' && siteAccess.siteId === id
+              )) && (
               <>
                 {(state.membersLoading || !state.data) && <p>Loading...</p>}
                 {!state.membersLoading && state.data && (
