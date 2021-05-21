@@ -7,6 +7,7 @@ import formStyles from '../../styles/Form.module.css';
 import Navigation from '../../components/Navigation';
 import Site from '../../components/Site';
 import IdTable from '../../components/IdTable';
+import IdTableCsvLink from '../../lib/csv';
 
 export default function SitePage() {
   const { user, mutateUser } = useUser({
@@ -180,8 +181,10 @@ export default function SitePage() {
                       state.idList.length > 0 && (
                         <>
                           <p>
-                            The following IDs are marked as used in the
-                            database:
+                            The following IDs are marked as used in the database
+                            (
+                            <IdTableCsvLink ids={state.idList} mode="manage" />
+                            ):
                           </p>
                           <div>
                             <IdTable ids={state.idList} mode="manage" />

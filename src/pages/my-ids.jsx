@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
 import IdTable from '../components/IdTable';
+import IdTableCsvLink from '../lib/csv';
 
 const MyIdsPage = () => {
   const { user, mutateUser } = useUser({
@@ -154,7 +155,9 @@ const MyIdsPage = () => {
               {!state.idsLoading && state.ids && state.ids.length > 0 && (
                 <>
                   <p>
-                    You have generated the following IDs, now marked as used:
+                    You have generated the following IDs, now marked as used (
+                    <IdTableCsvLink ids={state.ids} mode="mine" />
+                    ):
                   </p>
                   <div>
                     <IdTable ids={state.ids} mode="mine" />
