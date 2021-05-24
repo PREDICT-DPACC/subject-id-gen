@@ -7,6 +7,7 @@ import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
 import Navigation from '../components/Navigation';
 import IdGenerator from '../components/IdGenerator';
+import IdTableCsvLink from '../lib/csv';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -180,7 +181,11 @@ export default function Home() {
                   />
                   {state.ids && state.ids.length > 0 && (
                     <>
-                      <p>The following IDs have now been marked as used:</p>
+                      <p>
+                        The following IDs have now been marked as used (
+                        <IdTableCsvLink ids={state.ids} mode="mine" />
+                        ):
+                      </p>
                       {state.ids.map(id => (
                         <div className={styles.id} key={id.id}>
                           {id.id}
