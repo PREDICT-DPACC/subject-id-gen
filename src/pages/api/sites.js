@@ -25,10 +25,13 @@ export default withSession(async (req, res) => {
         await Promise.all(
           sites.map(site => {
             if (
-              !access.some(
-                siteAccess =>
-                  siteAccess.siteRole === 'manager' &&
-                  siteAccess.siteId === site
+              !(
+                foundUser.role === 'admin' ||
+                access.some(
+                  siteAccess =>
+                    siteAccess.siteId === site &&
+                    siteAccess.siteRole === 'manager'
+                )
               )
             ) {
               return Promise.reject(

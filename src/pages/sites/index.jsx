@@ -72,13 +72,15 @@ export default function ManageSitesPage() {
             <p className={formStyles.error}>{state.errorMsg}</p>
           )}
           {(!user?.isVerified ||
-            !user?.access.some(
-              siteAccess => siteAccess.siteRole === 'manager'
+            !(
+              user?.role === 'admin' ||
+              user?.access.some(siteAccess => siteAccess.siteRole === 'manager')
             )) && <div>You are not authorized to view this page.</div>}
           {user?.isVerified &&
-            user?.access.some(
-              siteAccess => siteAccess.siteRole === 'manager'
-            ) && (
+            (user?.role === 'admin' ||
+              user?.access.some(
+                siteAccess => siteAccess.siteRole === 'manager'
+              )) && (
               <>
                 {(state.tableLoading || !state.data.sites) && <p>Loading...</p>}
                 {!state.tableLoading && state.data.sites && (
