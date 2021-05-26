@@ -7,7 +7,6 @@ import fetchJson from '../lib/fetchJson';
 import formStyles from '../styles/Form.module.css';
 import Navigation from '../components/Navigation';
 import IdGenerator from '../components/IdGenerator';
-import IdTableCsvLink from '../lib/csv';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -17,7 +16,8 @@ export default function Home() {
     redirectTo: '/login',
   });
   const [state, setState] = useState({
-    ids: [],
+    newId: '',
+    copiedAnimPlaying: false,
     formDisabled: false,
     sentEmail: false,
     errorMsg: '',
@@ -34,14 +34,17 @@ export default function Home() {
   const setError = useCallback(val => {
     setState(prevState => ({ ...prevState, errorMsg: val }));
   }, []);
-  const setIds = useCallback(val => {
-    setState(prevState => ({ ...prevState, ids: val }));
+  const setNewId = useCallback(val => {
+    setState(prevState => ({ ...prevState, newId: val }));
   }, []);
   const setSitesList = useCallback(val => {
     setState(prevState => ({ ...prevState, sitesList: val }));
   }, []);
   const setSitesLoading = useCallback(val => {
     setState(prevState => ({ ...prevState, sitesLoading: val }));
+  }, []);
+  const setAnimationPlaying = useCallback(val => {
+    setState(prevState => ({ ...prevState, copiedAnimPlaying: val }));
   }, []);
 
   const handleResendVerification = async e => {
@@ -68,19 +71,43 @@ export default function Home() {
       const body = {
         action: 'generate',
         siteId: e.currentTarget.site.value,
-        quantity: e.currentTarget.quantity.value,
+        quantity: 1,
       };
       const res = await fetchJson(`/api/ids`, {
         method: 'POST',
         body: JSON.stringify(body),
         headers: { 'Content-Type': 'application/json' },
       });
-      setIds(res.ids);
+      setNewId(res.ids[0]);
       setDisabled(false);
       setError('');
     } catch (error) {
       setDisabled(false);
       setError(error.message);
+    }
+  };
+
+  const handleCopy = async e => {
+    const id = e.target;
+    try {
+      setAnimationPlaying(true);
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        selection.removeAllRanges();
+      }
+      const range = document.createRange();
+      range.selectNode(id);
+      selection.addRange(range);
+      await navigator.clipboard.writeText(id.innerHTML);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleCopyKeyboard = async e => {
+    // Enter or spacebar
+    if (e.keyCode === 13 || e.keyCode === 32) {
+      await handleCopy(e);
     }
   };
 
@@ -179,18 +206,33 @@ export default function Home() {
                     formDisabled={state.formDisabled}
                     sitesList={state.sitesList}
                   />
-                  {state.ids && state.ids.length > 0 && (
+                  {state.newId && state.newId !== '' && (
                     <>
                       <p>
-                        The following IDs have now been marked as used (
-                        <IdTableCsvLink ids={state.ids} mode="mine" />
-                        ):
+                        The following ID has now been marked as used (click to
+                        copy):
                       </p>
-                      {state.ids.map(id => (
-                        <div className={styles.id} key={id.id}>
-                          {id.id}
+                      <div className={styles.clickcontainer}>
+                        <div
+                          className={styles.id}
+                          onClick={handleCopy}
+                          onKeyDown={handleCopyKeyboard}
+                          role="button"
+                          tabIndex="0"
+                        >
+                          {state.newId.id}
                         </div>
-                      ))}
+                        <div
+                          className={
+                            state.copiedAnimPlaying
+                              ? `${styles.copied} ${styles.copiedanimation}`
+                              : styles.copied
+                          }
+                          onAnimationEnd={() => setAnimationPlaying(false)}
+                        >
+                          Copied!
+                        </div>
+                      </div>
                     </>
                   )}
                   <p>

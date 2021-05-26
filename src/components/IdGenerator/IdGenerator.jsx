@@ -30,21 +30,6 @@ const IdGenerator = ({ access, onSubmit, formDisabled, sitesList }) => (
             ))}
         </select>
       </div>
-      <div className={formStyles.fieldset}>
-        <label htmlFor="quantity" className={formStyles.label}>
-          Quantity
-        </label>
-        <input
-          type="number"
-          name="quantity"
-          required
-          defaultValue={1}
-          min="1"
-          max="100"
-          className={formStyles.field}
-          disabled={formDisabled}
-        />
-      </div>
       <div className={formStyles.buttongroup}>
         <button
           type="submit"

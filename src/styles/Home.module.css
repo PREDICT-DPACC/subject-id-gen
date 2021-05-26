@@ -2,7 +2,45 @@
   max-width: 500px;
 }
 
+.clickcontainer {
+  display: grid;
+  width: 300px;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+}
+
 .id {
   font-family: 'Courier New', Courier, monospace;
-  font-size: 1.5em;
+  font-size: 1.8em;
+  cursor: pointer;
+  font-weight: bold;
+  flex-basis: 75%;
+  grid-column: 2;
+}
+
+.copied {
+  visibility: hidden;
+  display: inline;
+  flex-basis: 25%;
+  grid-column: 3;
+  text-align: center;
+  color: #555;
+}
+
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  75% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.copiedanimation {
+  animation: disappear 2s ease-out 1;
 }
