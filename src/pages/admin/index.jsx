@@ -72,6 +72,7 @@ export default function AdminUsersPage() {
           )}
           {user?.isVerified && user?.role === 'admin' && !state.tableLoading && (
             <>
+              <h3>Administration</h3>
               {state.errorMsg !== '' && <div>{state.errorMsg}</div>}
               <AdminNav
                 activeKey={state.activeKey}

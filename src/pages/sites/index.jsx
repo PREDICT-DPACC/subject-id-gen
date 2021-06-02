@@ -85,6 +85,7 @@ export default function ManageSitesPage() {
                 {(state.tableLoading || !state.data.sites) && <p>Loading...</p>}
                 {!state.tableLoading && state.data.sites && (
                   <>
+                    <h3>Manage Site(s)</h3>
                     <p>
                       Here you can manage sites for which you are a designated
                       Manager.

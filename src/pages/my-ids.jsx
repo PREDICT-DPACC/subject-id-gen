@@ -115,7 +115,7 @@ const MyIdsPage = () => {
           )}
           {user?.isVerified && user.access?.length > 0 && (
             <>
-              <h4>My Generated IDs</h4>
+              <h3>My Generated IDs</h3>
               <div>
                 <form onSubmit={handleSubmit}>
                   <div className={formStyles.inputgroup}>

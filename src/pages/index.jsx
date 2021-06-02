@@ -200,6 +200,7 @@ export default function Home() {
               )}
               {user.access?.length > 0 && (
                 <>
+                  <h3>Generate an ID</h3>
                   <IdGenerator
                     access={user.access}
                     onSubmit={handleGenerate}
