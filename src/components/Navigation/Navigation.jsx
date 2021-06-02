@@ -41,6 +41,7 @@ const Navigation = ({ user, mutateUser, setError }) => {
             user?.access.some(
               siteAccess => siteAccess.siteRole === 'manager'
             ) && <NavLink path="/sites" title="Manage Site(s)" />}
+          <NavLink path="/account" title="Account" />
           <a
             href="/api/auth/logout"
             className={styles.navlink}

@@ -75,6 +75,8 @@ export default withSession(async (req, res) => {
       email: emailLower,
       access,
       role,
+      firstName,
+      lastName,
     };
 
     req.session.set('user', user);

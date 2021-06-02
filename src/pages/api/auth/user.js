@@ -12,7 +12,8 @@ export default withSession(async (req, res) => {
       const wholeUser = await db
         .collection('users')
         .findOne({ _id: ObjectId(id) });
-      const { access, isVerified, email, role } = wholeUser;
+      const { access, isVerified, email, role, firstName, lastName } =
+        wholeUser;
       const userFromDb = {
         id,
         isLoggedIn: true,
@@ -20,6 +21,8 @@ export default withSession(async (req, res) => {
         email: email.toLowerCase(),
         access,
         role,
+        firstName,
+        lastName,
       };
       res.json(userFromDb);
     } catch (error) {

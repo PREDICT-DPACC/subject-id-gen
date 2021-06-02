@@ -38,7 +38,8 @@ export default withSession(async (req, res) => {
         { $set: { isVerified: true } }
       );
 
-    const { _id, email, access, requestedSites, role } = foundUser.value;
+    const { _id, email, access, requestedSites, role, firstName, lastName } =
+      foundUser.value;
 
     const foundSites = await db
       .collection('sites')
@@ -80,6 +81,8 @@ export default withSession(async (req, res) => {
       email: email.toLowerCase(),
       access,
       role,
+      firstName,
+      lastName,
     };
     req.session.set('user', user);
     await req.session.save();
