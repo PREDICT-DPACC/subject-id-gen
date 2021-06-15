@@ -1,7 +1,5 @@
 # Subject ID Generator
 
-Note: This app is still a WIP and is not ready for production deployment. A development deployment has been set up using Vercel. There will be instructions for building and using a Singularity image at the time of production deployment.
-
 ## Requirements
 
 * Node.JS 16 or nvm
