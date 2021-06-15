@@ -6,7 +6,7 @@
 * MongoDB 4.4
 * Yarn 1.22.0
 
-## Getting started (manual)
+## Getting started
 
 ### Clone the repo
 
