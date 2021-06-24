@@ -39,6 +39,16 @@ cp .env.local.sample .env.local
 
 And then open `.env.local` and edit the values according to your setup, using the provided comments.
 
+### Set up `next.config.js`
+
+This project also uses some Next.js app-level configurations stored at `next.config.js`, which will not be committed to version control. Please run the following command:
+
+```bash
+cp next.config.js.sample next.config.js
+```
+
+And then open `next.config.js` and edit the values according to your setup, using the provided comments.
+
 ### Seed the database
 
 In order to seed the database with site IDs and names, run the following command:
