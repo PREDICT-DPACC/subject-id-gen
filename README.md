@@ -9,7 +9,9 @@
       * [Set up next.config.js](#set-up-nextconfigjs)
       * [Seed the database](#seed-the-database)
    * [Available scripts](#available-scripts)
-   * [Nginx configuration](#nginx-configuration)
+   * [Server configuration](#server-configuration)
+      * [Subpath](#subpath)
+      * [Nginx reverse proxy with subpath](#nginx-reverse-proxy-with-subpath)
 
 
 ## Requirements
@@ -94,11 +96,37 @@ yarn start
 ```
 
 
-## Nginx configuration
+## Server configuration
 
-So far we have described how to serve this app from a root URL e.g. http://localhost:4040.
-To serve this app from a non root URL e.g. http://localhost/idgen, the following `location` block is
-necessary in `/etc/nginx.conf`:
+### Subpath
+
+So far we have described how to serve this app from a root URL on localhost e.g. `http://localhost:4040`.
+To serve this app from a non-root subpath e.g. `http://localhost:4040/idgen`, the following changes are necessary:
+
+Uncomment the `basePath` line in `next.config.js` and use your new subpath:
+```js
+module.exports = {
+  ...
+  // Optional: set a base path to serve your app from non-root URL
+  // (make sure to uncomment if used)
+  basePath: '/idgen',
+};
+```
+
+In addition, `.env.local` must have the following properties set with the new subpath:
+
+```cfg
+BASE_URL=http://localhost:4040/idgen
+
+NEXT_PUBLIC_BASE_PATH=/idgen
+```
+
+### Nginx reverse proxy with subpath
+
+If you would additionally like to use a reverse proxy to serve the app from your hostname,
+in this example `rc-predict-dev.partners.org`, the following changes will also be necessary:
+
+The following `location` block is necessary in `/etc/nginx/nginx.conf`:
 
 ```cfg
 server {
@@ -117,7 +145,7 @@ server {
 }
 ```
 
-In addition, `.env.local` must have:
+Then, the `BASE_URL` property in `.env.local` must also be changed to reflect the hostname:
 
 ```cfg
 BASE_URL=http://rc-predict-dev.partners.org/idgen
@@ -126,5 +154,5 @@ NEXT_PUBLIC_BASE_PATH=/idgen
 ```
 
 Upon using this configuration, the admin will get emails with properly generated site access
-granting links when users request access to various sites. Those links will look like http://rc-predict-dev.partners.org/idgen/sites/LA.
-
+granting links when users request access to various sites. Those links will look like 
+`http://rc-predict-dev.partners.org/idgen/sites/LA`.
