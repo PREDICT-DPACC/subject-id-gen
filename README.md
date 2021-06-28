@@ -80,3 +80,39 @@ To serve the built bundle on port 4041, use the following command (`yarn build` 
 ```bash
 yarn start
 ```
+
+
+## Nginx configuration
+
+So far we have described how to serve this app from a root URL e.g. http://localhost:4040.
+To serve this app from a non root URL e.g. http://localhost/idgen, the following `location` block is
+necessary in `/etc/nginx.conf`:
+
+```cfg
+server {
+    listen       80;
+    server_name  rc-predict-dev.partners.org;
+
+    location /idgen {
+        proxy_pass http://127.0.0.1:4040/idgen;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+}
+```
+
+In addition, `.env.local` must have:
+
+```cfg
+BASE_URL=http://rc-predict-dev.partners.org/idgen
+
+NEXT_PUBLIC_BASE_PATH=/idgen
+```
+
+Upon using this configuration, the admin will get emails with properly generated site access
+granting links when users request access to various sites. Those links will look like http://rc-predict-dev.partners.org/idgen/sites/LA.
+
