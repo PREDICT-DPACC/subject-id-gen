@@ -1,5 +1,19 @@
 # Subject ID Generator
 
+   * [Requirements](#requirements)
+   * [Getting started](#getting-started)
+      * [Clone the repo](#clone-the-repo)
+      * [Install dependencies](#install-dependencies)
+      * [Run MongoDB](#run-mongodb)
+      * [Set environment variables](#set-environment-variables)
+      * [Set up next.config.js](#set-up-nextconfigjs)
+      * [Seed the database](#seed-the-database)
+   * [Available scripts](#available-scripts)
+   * [Server configuration](#server-configuration)
+      * [Subpath](#subpath)
+      * [Nginx reverse proxy with subpath](#nginx-reverse-proxy-with-subpath)
+
+
 ## Requirements
 
 * Node.JS 16 or nvm
@@ -80,3 +94,65 @@ To serve the built bundle on port 4041, use the following command (`yarn build` 
 ```bash
 yarn start
 ```
+
+
+## Server configuration
+
+### Subpath
+
+So far we have described how to serve this app from a root URL on localhost e.g. `http://localhost:4040`.
+To serve this app from a non-root subpath e.g. `http://localhost:4040/idgen`, the following changes are necessary:
+
+Uncomment the `basePath` line in `next.config.js` and use your new subpath:
+```js
+module.exports = {
+  ...
+  // Optional: set a base path to serve your app from non-root URL
+  // (make sure to uncomment if used)
+  basePath: '/idgen',
+};
+```
+
+In addition, `.env.local` must have the following properties set with the new subpath:
+
+```cfg
+BASE_URL=http://localhost:4040/idgen
+
+NEXT_PUBLIC_BASE_PATH=/idgen
+```
+
+### Nginx reverse proxy with subpath
+
+If you would additionally like to use a reverse proxy to serve the app from your hostname,
+in this example `rc-predict-dev.partners.org`, the following changes will also be necessary:
+
+The following `location` block is necessary in `/etc/nginx/nginx.conf`:
+
+```cfg
+server {
+    listen       80;
+    server_name  rc-predict-dev.partners.org;
+
+    location /idgen {
+        proxy_pass http://127.0.0.1:4040/idgen;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+}
+```
+
+Then, the `BASE_URL` property in `.env.local` must also be changed to reflect the hostname:
+
+```cfg
+BASE_URL=http://rc-predict-dev.partners.org/idgen
+
+NEXT_PUBLIC_BASE_PATH=/idgen
+```
+
+Upon using this configuration, the admin will get emails with properly generated site access
+granting links when users request access to various sites. Those links will look like 
+`http://rc-predict-dev.partners.org/idgen/sites/LA`.
