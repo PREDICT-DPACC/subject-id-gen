@@ -1,5 +1,17 @@
 # Subject ID Generator
 
+   * [Requirements](#requirements)
+   * [Getting started](#getting-started)
+      * [Clone the repo](#clone-the-repo)
+      * [Install dependencies](#install-dependencies)
+      * [Run MongoDB](#run-mongodb)
+      * [Set environment variables](#set-environment-variables)
+      * [Set up next.config.js](#set-up-nextconfigjs)
+      * [Seed the database](#seed-the-database)
+   * [Available scripts](#available-scripts)
+   * [Nginx configuration](#nginx-configuration)
+
+
 ## Requirements
 
 * Node.JS 16 or nvm
