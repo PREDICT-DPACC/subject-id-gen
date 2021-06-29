@@ -62,7 +62,7 @@ Whatever you used for `dbname` will be set to `MONGODB_DB` in the next step. For
 
 ### Set environment variables
 
-This project uses environment variables stored in `.env.local` at the proejct root. This file will not be committed to version control. Please run the following command:
+This project uses environment variables stored in `.env.local` at the project root. This file will not be committed to version control. Please run the following command:
 
 ```bash
 cp .env.local.sample .env.local
