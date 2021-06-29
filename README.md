@@ -113,6 +113,7 @@ To serve the built bundle on port 4041, use the following command (`yarn build` 
 yarn start
 ```
 
+See [Cookies](#cookies) section for one caveat about running the app with `yarn start`.
 
 ## Server configuration
 
