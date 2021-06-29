@@ -49,7 +49,7 @@ mongo
 ```
 
 From the MongoDB CLI (replace `dbname`, `a username` and `a secure password`):
-```mongodb
+```js
 use dbname
 db.createUser({
   user: "a username",
