@@ -193,3 +193,5 @@ following change to the `cookieOptions.secure` property in `src/lib/session.js`:
     },
 ...
 ```
+
+And then run `yarn build` and `yarn start`.
