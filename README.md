@@ -16,9 +16,9 @@
 
 ## Requirements
 
-* Node.JS 16 or nvm
-* MongoDB 4.4
-* Yarn 1.22.0
+* Node.JS 16+ or nvm
+* MongoDB 4.4+
+* Yarn 1.22.0+ (recommended to install through npm: `npm install -g yarn`)
 
 ## Getting started
 
@@ -48,17 +48,17 @@ For a self-hosted instance, first launch the MongoDB CLI from the command line:
 mongo
 ```
 
-From the MongoDB CLI (replace `dbname`, `a username` and `a secure password`):
+From the MongoDB CLI (replace `dbname`, `username` and `secure password`):
 ```js
 use dbname
 db.createUser({
-  user: "a username",
-  pwd: "a secure password",
+  user: "username",
+  pwd: "secure password",
   roles: [ "readWrite" ],
 })
 ```
 
-Whatever you used for `dbname` will be set to `MONGODB_DB` in the next step.
+Whatever you used for `dbname` will be set to `MONGODB_DB` in the next step. For a self-hosted instance, the MongoDB connection URI (`MONGODB_URI`) will be something like `mongodb://username:password@localhost:27017/dbname`.
 
 ### Set environment variables
 
