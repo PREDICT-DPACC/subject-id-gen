@@ -12,6 +12,7 @@
    * [Server configuration](#server-configuration)
       * [Subpath](#subpath)
       * [Nginx reverse proxy with subpath](#nginx-reverse-proxy-with-subpath)
+      * [Cookies](#cookies)
 
 
 ## Requirements
@@ -173,3 +174,22 @@ NEXT_PUBLIC_BASE_PATH=/idgen
 Upon using this configuration, the admin will get emails with properly generated site access
 granting links when users request access to various sites. Those links will look like 
 `http://rc-predict-dev.partners.org/idgen/sites/LA`.
+
+### Cookies
+
+This app uses cookies to store session information at login. When using `yarn build` and 
+`yarn start`, you must be able to serve the app over HTTPS with a valid certificate, because
+the session uses secure cookies in production mode. 
+
+It is **not recommended**, but if you don't have the ability to set up HTTPS for your server,
+you may either use `yarn dev` (slower and some styles will not load), or you may make the
+following change to the `cookieOptions.secure` property in `src/lib/session.js`:
+
+```js
+// src/lib/session.js
+...
+    cookieOptions: {
+      secure: false,
+    },
+...
+```
