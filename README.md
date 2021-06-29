@@ -43,6 +43,23 @@ yarn install
 
 A self- or remote-hosted MongoDB instance, accessible from a connection URI, is required to continue. Please create that instance, and a user that can access an empty database there, and note that database name (it will be used in the next step for `MONGODB_DB`).
 
+For a self-hosted instance, first launch the MongoDB CLI from the command line:
+```bash
+mongo
+```
+
+From the MongoDB CLI (replace `dbname`, `a username` and `a secure password`):
+```mongodb
+use dbname
+db.createUser({
+  user: "a username",
+  pwd: "a secure password",
+  roles: [ "readWrite" ],
+})
+```
+
+Whatever you used for `dbname` will be set to `MONGODB_DB` in the next step.
+
 ### Set environment variables
 
 This project uses environment variables stored in `.env.local` at the proejct root. This file will not be committed to version control. Please run the following command:
