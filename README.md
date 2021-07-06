@@ -34,7 +34,15 @@ cd subject-id-gen
 
 ### Install dependencies
 
-This project uses Yarn and the version of Node specified in `.nvmrc`. Use the following command to install dependencies:
+(i) Install Node.js as noted [here](https://github.com/AMP-SCZ/dpdash/blob/fdd79396f5790b12252c324fb1527f84fc904986/singularity/Singularity#L41). `npm` command will come with it.
+
+(ii) `npm install --global yarn`
+      
+You may install without `--global` but then you will have to use `node_modules/yarn/bin/yarn` later.
+
+(iii) [Install](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#install-mongodb-community-edition) MongoDB community edition, [configure](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#configure-selinux) SELinux, and [start](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/#start-mongodb) MongoDB.
+
+(iv) This project uses Yarn and the version of Node specified in `.nvmrc`. Use the following command to install dependencies:
 
 ```bash
 yarn install
