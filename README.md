@@ -13,6 +13,7 @@
       * [Subpath](#subpath)
       * [Nginx reverse proxy with subpath](#nginx-reverse-proxy-with-subpath)
       * [Cookies](#cookies)
+   * [Appendix](#appendix)
 
 
 ## Requirements
@@ -204,3 +205,8 @@ following change to the `cookieOptions.secure` property in `src/lib/session.js`:
 ```
 
 And then run `yarn build` and `yarn start`.
+
+
+## Appendix
+
+https://github.com/AMP-SCZ/dpdash/wiki/MongoDB-Tips
