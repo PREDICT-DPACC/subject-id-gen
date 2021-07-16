@@ -105,13 +105,6 @@ const PromoteToManagerPage = () => {
                       className={formStyles.field}
                       disabled={state.submitting}
                     >
-                      <optgroup label="PRESCIENT">
-                        <OptionsForSiteList
-                          filteredSites={state.sitesList.filter(
-                            site => site.network === 'PRESCIENT'
-                          )}
-                        />
-                      </optgroup>
                       <optgroup label="ProNET">
                         <OptionsForSiteList
                           filteredSites={state.sitesList.filter(

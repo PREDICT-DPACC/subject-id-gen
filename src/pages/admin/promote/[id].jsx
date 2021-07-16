@@ -130,13 +130,6 @@ const PromoteToManagerPage = () => {
                     </p>
                     <p>CTRL or CMD + click to select multiple.</p>
                     <select name="sites" multiple className={formStyles.field}>
-                      <optgroup label="PRESCIENT">
-                        <OptionsForSiteList
-                          filteredSites={state.sitesList.filter(
-                            site => site.network === 'PRESCIENT'
-                          )}
-                        />
-                      </optgroup>
                       <optgroup label="ProNET">
                         <OptionsForSiteList
                           filteredSites={state.sitesList.filter(

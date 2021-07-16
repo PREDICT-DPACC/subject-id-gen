@@ -78,7 +78,6 @@ const AdminAddSitePage = () => {
                       disabled={state.submitting}
                       className={formStyles.field}
                     >
-                      <option value="PRESCIENT">PRESCIENT</option>
                       <option value="ProNET">ProNET</option>
                     </select>
                   </div>
