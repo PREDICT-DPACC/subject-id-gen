@@ -1,8 +1,7 @@
 module.exports = {
   // Recommended: use the latest webpack
-  future: {
-    webpack5: true,
-  },
+  webpack5: true,
+  
   // Optional: set a base path to serve your app from non-root URL
   // (make sure to uncomment if used)
   // basePath: '/idgen',
