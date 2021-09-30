@@ -54,18 +54,6 @@ const SiteTable = ({ sites, mode }) => {
         </tr>
       </thead>
       <tbody>
-        {sites.some(site => site.network === 'PRESCIENT') && (
-          <>
-            <tr>
-              <td colSpan={6}>
-                <strong>PRESCIENT</strong>
-              </td>
-            </tr>
-            <RowsForSite
-              filteredSites={sites.filter(site => site.network === 'PRESCIENT')}
-            />
-          </>
-        )}
         {sites.some(site => site.network === 'ProNET') && (
           <>
             <tr>
