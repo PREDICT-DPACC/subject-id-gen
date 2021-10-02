@@ -117,13 +117,6 @@ const RegisterForm = ({
           disabled={disabled}
           className={formStyles.field}
         >
-          <optgroup label="PRESCIENT">
-            <OptionsForSiteList
-              filteredSites={sitesList.filter(
-                site => site.network === 'PRESCIENT'
-              )}
-            />
-          </optgroup>
           <optgroup label="ProNET">
             <OptionsForSiteList
               filteredSites={sitesList.filter(
