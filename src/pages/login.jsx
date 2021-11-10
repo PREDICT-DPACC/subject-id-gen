@@ -43,7 +43,7 @@ const LoginPage = () => {
   return (
     <Layout>
       <p className={styles.description}>
-        A tool to create or validate subject IDs for the DPACC project.
+        A tool to create or validate subject IDs for the AMP-SCZ project.
       </p>
       {(!user || user?.isLoggedIn) && <>Loading...</>}
       {user && !user.isLoggedIn && (
