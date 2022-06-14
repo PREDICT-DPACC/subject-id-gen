@@ -3,7 +3,7 @@
 import argparse
 import json
 from os.path import isfile, abspath
-from sklearn.utils import shuffle
+from random import sample
 
 def main():
 
@@ -48,8 +48,7 @@ def main():
             checkDigit%= 10
             ids.append(f'{tmp}{checkDigit}')
 
-        ids= shuffle(ids)
-
+        ids=[ids[k] for k in sample(range(args.n),args.n)]
 
         for id in ids:
             f.write(f'{id},{site}\n')
