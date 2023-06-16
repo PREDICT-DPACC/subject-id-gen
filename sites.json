@@ -183,5 +183,20 @@
     "id": "SL",
     "name": "Seoul",
     "network": "ProNET"
+  },
+  {
+    "id": "OH",
+    "name": "Ohio State University",
+    "network": "ProNET"
+  },
+  {
+    "id": "UR",
+    "name": "University of Rochester",
+    "network": "ProNET"
+  },
+  {
+    "id": "CU",
+    "name": "Columbia University",
+    "network": "ProNET"
   }
 ]
